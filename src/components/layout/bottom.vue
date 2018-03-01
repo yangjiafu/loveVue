@@ -34,7 +34,7 @@
   }
 </script>
 <style>
-.weui-tabbar{
-  left: 0!important;
-}
+/*.weui-tabbar{*/
+  /*left: 0!important;*/
+/*}*/
 </style>
