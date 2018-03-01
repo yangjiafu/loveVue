@@ -7,7 +7,7 @@
         首页
       </li>
       <li @click="goHot">
-        热门
+        热门页
       </li>
       <li @click="goUser">
         用户
