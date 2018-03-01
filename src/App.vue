@@ -1,85 +1,54 @@
 <template>
   <div id="app">
     <!--<img src="./assets/logo.png">-->
-    <router-view/>
-    <ul>
-      <li @click="goHome">
-        首页
-      </li>
-      <li @click="goHot">
-        热门页
-      </li>
-      <li @click="goUser">
-        用户
-      </li>
-    </ul>
-    {{$store.state.count}}
-    <button @click="$store.commit('add')">+</button>
-    {{$store.state.name}},{{ getUserInfo }}
-    <!--<button @click="$store.commit('setUserInfo',{names:'yang'})">-->
-    <button @click="setCookie()">
-      存储用户信息在cookie
-    </button>
-    <button @click="cheakUserInfo">检查cookie</button>
-    {{cookie}}
-    <group>
-      <cell title="title" value="value"></cell>
-    </group>
+    <loading v-model="isLoading"></loading>
+    <transition name="fade">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
 <script>
-  import { Group, Cell } from 'vux'
+  import { Loading } from 'vux'
   import routes from './router'
   import { mapState,mapMutations,mapGetters,mapActions } from 'vuex'
 export default {
   name: 'App',
   components:{
-      Group,
-      Cell
+    Loading,
   },
   data(){
     return{
-      cookie:'',
-      userInfo:{
-          name:'杨',
-          token:'12321asd',
-          pwd:'123'
-      }
+      loadInfo:false
     }
   },
   computed:{
+    ...mapState({
+      isLoading:state => state.isLoading
+    }),
     ...mapGetters(['getUserInfo'])
   },
   mounted(){
-      this.init()
+//    this.judgmentInfo()
   },
   methods:{
-    ...mapMutations([
-        'setUserInfo','cheakUserInfo'
-    ]),
-    init(){
-      console.log('页面加载执行函数')
+    ...mapMutations(['updateLoadingStatus']),
+      judgmentInfo(){
+//        this.updateLoadingStatus(true)
+//        console.log('default...');
+//        setTimeout(()=>{
+//          this.updateLoadingStatus(false)
+//        },1000)
 
-    },
-    setCookie(){
-      this.setUserInfo(this.userInfo)
-//        console.log('读取')
-    },
-    goHome:()=>{
-      console.log('gohome');
-      routes.push({name:'home'})
-    },
-    goHot:()=>{
-      console.log('goHot')
-      routes.push({name:'hot'})
-      console.log('goHot')
-      //this.$router.push({path:'/hot'})
-    },
-    goUser:()=>{
-      console.log('goUser');
-      routes.push({name:'user'})
-    }
+//        setTimeout(()=>{
+//          routes.push({name:'home'})
+//        },1000)
+//          if(this.loadInfo){
+//            routes.push({name:'home'})
+//          }else {
+//              routes.push({name:'login'})
+//          }
+      }
   }
 }
 </script>
@@ -93,5 +62,10 @@ export default {
     color: #2c3e50;
     margin-top: 60px;
   }
-
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
+  }
 </style>

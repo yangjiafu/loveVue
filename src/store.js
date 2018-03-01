@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
+  isLoading: false,
   count: 23,
   name:'',
   token:'',
@@ -11,6 +12,10 @@ const state = {
 }
 
 const mutations = {
+  updateLoadingStatus(state,payload){
+    console.log(payload)
+    state.isLoading = payload
+  },
   add(state){
     state.count += 1
   },
