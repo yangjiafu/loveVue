@@ -1,0 +1,8 @@
+vue init webpack lovewatch
+
+cd lovewatch
+npm install vue-router --save-dev
+
+npm install vux --save
+npm install vux-loader --save-dev
+npm install less less-loader --save-dev
