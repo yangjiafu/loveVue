@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
+  title:'首页',
   isLoading: false,
   count: 23,
   name:'',
@@ -12,6 +13,17 @@ const state = {
 }
 
 const mutations = {
+  setTitle(state,title){
+    if (title == '/')
+      state.title = '首页'
+    else if(title =='/hot')
+      state.title = '热门'
+    else if(title == '/news')
+      state.title = '新闻'
+    else if(title == '/user')
+      state.title = '用户'
+
+  },
   updateLoadingStatus(state,payload){
     console.log(payload)
     state.isLoading = payload

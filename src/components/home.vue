@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div style="margin-top: 45px">
     <p>home</p>
     <!--<img src="./assets/logo.png">-->
 
@@ -92,7 +92,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
+    /*margin-top: 60px;*/
   }
 
 </style>

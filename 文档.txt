@@ -6,3 +6,8 @@ npm install vue-router --save-dev
 npm install vux --save
 npm install vux-loader --save-dev
 npm install less less-loader --save-dev
+
+
+进入app.vue加载判断用户是否有登陆记录
+  有：进入home页
+  无：login页

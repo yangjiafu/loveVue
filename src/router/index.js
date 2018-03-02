@@ -6,7 +6,7 @@ import user from '@/components/user'
 import login from '@/components/login'
 import index from '@/components/index'
 import news from '@/components/news'
-
+import search from '@/components/search'
 
 Vue.use(Router)
 
@@ -36,8 +36,11 @@ export default new Router({
           component:news
         }
         ]
-    },
-    {
+    },{
+      path:'/search',
+      name:'search',
+      component:search
+    },{
       path:'/login',
       name:'login',
       component:login
