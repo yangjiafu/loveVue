@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
+  url:'http://localhost:8000/',
+  qs:require('qs'),//post请求是data的格式处理
   title:'首页',
   isLoading: false,
   count: 23,
@@ -22,7 +24,6 @@ const mutations = {
       state.title = '新闻'
     else if(title == '/user')
       state.title = '用户'
-
   },
   updateLoadingStatus(state,payload){
     console.log(payload)

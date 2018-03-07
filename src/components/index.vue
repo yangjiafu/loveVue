@@ -6,10 +6,10 @@
     <drawer
       width="250px;"
       :show.sync="showMenu"
-      :drawer-style="{'background-color':'#fff', width: '70%',height:'100%'}"
+      :drawer-style="{'background-color':'#fff', width: '70%',height:'100%',top:'0',position:'fixed'}"
     >
       <div slot="drawer">
-        <x-icon @click="showMenu=!showMenu" slot="overwrite-left" type="navicon" size="35" style=" "></x-icon>
+        <x-icon @click="showMenu=!showMenu" slot="overwrite-left" type="navicon" size="35" style=""></x-icon>
         <p>侧边栏插槽</p>
         <br>
         <hr>
@@ -64,6 +64,9 @@
     height: 100%;
     width: 100%;
     overflow-x: hidden;
+  }
+  ul{
+    list-style: none;
   }
   .vux-demo-header-box {
     z-index: 100;
@@ -123,6 +126,8 @@
     background:  -ms-linear-gradient(left,#FF6740,#FF6740, #ff4324, #ff4324);
     background: -webkit-linear-gradient(left,#FF6740,#FF6740, #ff4324, #ff4324)!important;
 
-
+  }
+  .vux-drawer > .vux-drawer-body > .drawer-mask{
+    background-color: rgba(255,255,255,0)!important;
   }
 </style>

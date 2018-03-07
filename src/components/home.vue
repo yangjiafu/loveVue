@@ -1,6 +1,25 @@
 <template>
-  <div style="margin-top: 45px">
+  <div style="height: 100%;padding-bottom: 54px">
     <p>home</p>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
+    <br>
+    <p>home</p>
+    <p>home</p>
+    <p>home</p>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
+    <h1>home</h1>
     <!--<img src="./assets/logo.png">-->
 
     <!--<router-view/>-->
