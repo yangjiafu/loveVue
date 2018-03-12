@@ -49,7 +49,8 @@
       },
       watch: {
         $route(to, from) {
-            this.setTitle(to.path)
+          this.setTitle(to.path)
+          console.log(from.path)
 //          console.dir('to'+to.path);
 //          console.dir('from'+from.path);
         }
@@ -82,39 +83,41 @@
   .vux-drawer-active, .vux-drawer-content{
     z-index: 1001!important;
   }
-  .vux-pop-out-enter-active,
-  .vux-pop-out-leave-active,
-  .vux-pop-in-enter-active,
-  .vux-pop-in-leave-active {
-    will-change: transform;
-    transition: all 200ms;
-    height: 100%;
-    top: 46px;
-    position: absolute;
-    backface-visibility: hidden;
-    z-index: 1001;
-    perspective: 1000;
-  }
-  .vux-pop-out-enter {
-    opacity: 0;
-    z-index: 1001;
-    transform: translate3d(-100%, 0, 0);
-  }
-  .vux-pop-out-leave-active {
-    opacity: 0;
-    z-index: 1001;
-    transform: translate3d(100%, 0, 0);
-  }
-  .vux-pop-in-enter {
-    opacity: 0;
-    z-index: 1001;
-    transform: translate3d(100%, 0, 0);
-  }
-  .vux-pop-in-leave-active {
-    opacity: 0;
-    z-index: 1001;
-    transform: translate3d(-100%, 0, 0);
-  }
+  /*.vux-pop-out-enter-active,*/
+  /*.vux-pop-out-leave-active,*/
+  /*.vux-pop-in-enter-active,*/
+  /*.vux-pop-in-leave-active {*/
+    /*will-change: transform;*/
+    /*transition: all 200ms;*/
+    /*height: 100%;*/
+    /*!*top: 46px;*!*/
+    /*top:0;*/
+    /*position: absolute;*/
+    /*backface-visibility: hidden;*/
+    /*z-index: 1001;*/
+    /*!*perspective: 1000;*!*/
+  /*}*/
+  /*.vux-pop-out-enter {*/
+    /*opacity: 0;*/
+    /*z-index: 1001;*/
+    /*transform: translate3d(-100%, 0, 0);*/
+  /*}*/
+  /*.vux-pop-out-leave-active {*/
+    /*opacity: 0;*/
+    /*z-index: 1001;*/
+    /*transform: translate3d(100%, 0, 0);*/
+  /*}*/
+  /*.vux-pop-in-enter {*/
+    /*opacity: 0;*/
+    /*z-index: 1001;*/
+    /*transform: translate3d(100%, 0, 0);*/
+  /*}*/
+  /*.vux-pop-in-leave-active {*/
+    /*opacity: 0;*/
+    /*z-index: 1001;*/
+    /*transform: translate3d(-100%, 0, 0);*/
+  /*}*/
+
   .vux-drawer > .vux-drawer-content{
     transition: transform ease-in-out 0.34s, visibility 0.34s, -webkit-transform ease-in-out 0.34s!important;
   }

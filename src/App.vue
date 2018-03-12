@@ -2,9 +2,9 @@
   <div id="app">
     <!--<img src="./assets/logo.png">-->
     <loading v-model="isLoading"></loading>
-    <transition name="fade">
+    <!--<transition name="fade">-->
       <router-view/>
-    </transition>
+    <!--</transition>-->
   </div>
 </template>
 
@@ -64,9 +64,11 @@ export default {
     height:100%;
   }
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
+    /*height:0;*/
+    transition: opacity .2s
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    /*height:0;*/
     opacity: 0
   }
 </style>

@@ -11,3 +11,6 @@ npm install axios
 进入app.vue加载判断用户是否有登陆记录
   有：进入home页
   无：login页
+
+
+注意内部导入方法中this的指向问题

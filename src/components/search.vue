@@ -2,26 +2,45 @@
   <div style="padding-top: 50px">
     <x-header slot="header" style="position: absolute;top: 0;left: 0;width: 100%;z-index: 1000" >
       <x-icon @click="after()" slot="overwrite-left" type="ios-arrow-left" size="35" style="fill:#fff;position:relative;top:-8px;left:-3px;"></x-icon>
-      <input placeholder="输入搜索电影吧" class="search-style" autofocus type="text" v-model="searchInfo">
+      <input placeholder="输入搜索电影吧"
+             class="search-style"
+             autofocus
+             type="text"
+             v-on:onkeydown="searchPost"
+             v-model="searchInfo">
       <!--<x-icon type="ios-search-strong" size="30" style="color: #fff;background-color: #fff"></x-icon>-->
     </x-header>
-    <div class="search-box">
+    <div class="search-box" v-if="searchInfo.length >= 1">
       <p style="padding: 20px 10px;margin: 0"
-         v-if="searchInfo.length >= 1"
          @click="searchPost"
       >搜索"{{searchInfo}}"</p>
-      <ul>
-        <li>你好</li>
-        <li>hello</li>
-        <li>word</li>
-      </ul>
+      <!--<ul v-if="movieList.length>0">-->
+            <li></li>
+      <!--</ul>-->
+
     </div>
-    <p>搜索页</p>
+    <ul>
+      <li>
+        <div class="m-info-l">
+          <img src="static/list/神偷奶爸.jpg" alt="">
+        </div>
+        <div class="m-info-r">
+          <p>神偷奶爸</p>
+          <span>美国&nbsp;|&nbsp;2010</span>
+          <span class="m-r-director">冯小刚</span>
+          <span class="m-r-actor">拉塞尔.布克兰/史蒂夫/杰森.席格尔</span>
+          <span class="m-r-score">豆瓣评分:9.0</span>
+        </div>
+
+      </li>
+    </ul>
+    <button @click="readArr">修改数组</button>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex'
   import {XHeader}from 'vux'
+  import Vue from 'vue'
   export default{
       components:{
           XHeader
@@ -29,8 +48,12 @@
       data(){
           return{
 //            qs: require('qs'),
-            searchInfo:''
+            searchInfo:'',
+            movieList: []
         }
+      },
+      created:function () {
+//        this.searchPost()
       },
       computed:{
         ...mapState(['url','qs'])
@@ -43,17 +66,29 @@
             this.$router.go(-1)
           },
           searchPost(){
+            let _this = this;
+            let arr = [];
+            _this.movieList = [];
             this.$http.post(this.url+'search',
               this.qs.stringify({
-                'movie':this.searchInfo
+                'movie':this.searchInfo,
+//                'limit':''
               }
               )
             ).then(function (response) {
-                console.log(response)
-              }).catch(function (error) {
+                arr = response.data;
+                for(let j in response.data){
+                  _this.movieList.push(arr[j])
+                }
+              console.log(arr);
+            }).catch(function (error) {
                 console.log(error)
-              })
-          }
+              });
+          },
+          readArr(){
+            console.log('输出'+this.movieList);
+          },
+
       },
 //      watch: {
 //        $route(to, from) {
@@ -73,7 +108,7 @@
     width: 110%;
     background-color: transparent;
     color: #f9f9f9;
-    font-size: 16px;
+    font-size: 14px;
     border: none;
     border-bottom: 1px solid #f9f9f9
      }
@@ -94,8 +129,39 @@
     margin: 0;
   }
   ul>li{
+    width: 100%;
+    height: 230px;
     padding: 15px 10px;
     border-top: 1px solid #f0f0f0;
     text-align: left;
+  }
+  ul>li>span{
+    vertical-align:top;
+  }
+  .m-info-l{
+    width: 35%;height: 200px;float: left
+  }
+  .m-info-l>img{
+    width: 150px;
+  }
+  .m-info-r{
+    position: relative;
+    width: 60%;height: 200px;float: right
+  }
+  .m-info-r>p{
+    font-size: 16px;
+    color: #000;
+  }
+  .m-info-r>span{
+    font-size: 14px;
+    color: #999;
+  }
+  .m-info-r>.m-r-actor,.m-r-director{
+    display: block;
+  }
+  .m-info-r>.m-r-score{
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 </style>
