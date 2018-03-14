@@ -16,7 +16,7 @@ const state = {
 
 const mutations = {
   setTitle(state,title){
-    if (title == '/')
+    if (title == '/home')
       state.title = '首页'
     else if(title =='/hot')
       state.title = '热门'

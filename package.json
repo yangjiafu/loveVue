@@ -1,6 +1,6 @@
 {
   "name": "lovewatch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue.js project",
   "author": "yang",
   "private": true,
@@ -64,5 +64,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "config": {
+    "webpack": "./webpack.config.js"
+  }
 }

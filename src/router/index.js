@@ -17,21 +17,22 @@ export default new Router({
       path:'/',
       name:'index',
       component:index,
+      redirect:'/home',
       children:[
         {
-          path:'/',
+          path:'home',
           name:'home',
           component:home
         },{
-          path: '/hot',
+          path: 'hot',
           name: 'hot',
           component:hot
         },{
-          path:'/user',
+          path:'user',
           name:'user',
           component:user
         },{
-          path:'/news',
+          path:'news',
           name:'news',
           component:news
         }

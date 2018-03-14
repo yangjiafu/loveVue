@@ -15,35 +15,58 @@
          @click="searchPost"
       >搜索"{{searchInfo}}"</p>
       <!--<ul v-if="movieList.length>0">-->
-            <li></li>
+            <!--<li></li>-->
       <!--</ul>-->
 
     </div>
-    <ul>
-      <li>
+    <!--<img src="https://o5omsejde.qnssl.com/demo/test1.jpg" alt="">-->
+    <ul  v-if="movieList.length>0">
+      <li v-for="item in movieList">
         <div class="m-info-l">
-          <img src="static/list/神偷奶爸.jpg" alt="">
+          <!--<img :src="item.cover" alt="">-->
+          <x-img  :src="item.cover" :offset="100"></x-img>
         </div>
         <div class="m-info-r">
-          <p>神偷奶爸</p>
-          <span>美国&nbsp;|&nbsp;2010</span>
-          <span class="m-r-director">冯小刚</span>
-          <span class="m-r-actor">拉塞尔.布克兰/史蒂夫/杰森.席格尔</span>
-          <span class="m-r-score">豆瓣评分:9.0</span>
+          <p>{{item.name}}</p>
+          <span>{{item.area}}&nbsp;|&nbsp;{{item.releasetime}}</span>
+          <span class="m-r-director">
+            {{item.director}}
+            <!--<span v-for="director in item.director">{{director}}&nbsp;</span>-->
+          </span>
+          <span class="m-r-actor">
+            {{item.actor}}
+            <!--<span v-for="actor in item.actor">-->
+              <!--{{actor}}-->
+            <!--</span>-->
+          </span>
+          <span class="m-r-score">豆瓣评分:{{item.score}}</span>
         </div>
-
       </li>
+      <!--<li>-->
+        <!--<div class="m-info-l">-->
+          <!--<img src="static/list/神偷奶爸.jpg" alt="">-->
+        <!--</div>-->
+        <!--<div class="m-info-r">-->
+          <!--<p>神偷奶爸</p>-->
+          <!--<span>美国&nbsp;|&nbsp;2010</span>-->
+          <!--<span class="m-r-director">冯小刚</span>-->
+          <!--<span class="m-r-actor">拉塞尔.布克兰/史蒂夫/杰森.席格尔拉塞尔.布克兰/史蒂夫/杰森.席格尔拉塞尔.布克兰/史蒂夫/杰森.席格尔</span>-->
+          <!--<span class="m-r-score">豆瓣评分:9.0</span>-->
+        <!--</div>-->
+      <!--</li>-->
+
     </ul>
     <button @click="readArr">修改数组</button>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex'
-  import {XHeader}from 'vux'
+  import {XHeader,XImg}from 'vux'
+//  import {XHeader} from 'node_modules/vux/XHeader.vue'
   import Vue from 'vue'
   export default{
       components:{
-          XHeader
+          XHeader,XImg
       },
       data(){
           return{
@@ -130,23 +153,30 @@
   }
   ul>li{
     width: 100%;
-    height: 230px;
-    padding: 15px 10px;
-    border-top: 1px solid #f0f0f0;
+    height: 210px;
+    padding: 5px;
+    border-bottom: 1px solid #f0f0f0;
     text-align: left;
   }
-  ul>li>span{
-    vertical-align:top;
-  }
+  /*ul>li>span{*/
+    /*vertical-align:top;*/
+  /*}*/
   .m-info-l{
-    width: 35%;height: 200px;float: left
+    width: 35%;
+    height: 200px;
+    float: left;
+    text-align: center;
+    /*overflow: hidden;*/
   }
   .m-info-l>img{
+    /*max-width: 100%;*/
     width: 150px;
   }
   .m-info-r{
+    width: 60%;
+    height: 200px;
+    float: right;
     position: relative;
-    width: 60%;height: 200px;float: right
   }
   .m-info-r>p{
     font-size: 16px;
@@ -158,10 +188,18 @@
   }
   .m-info-r>.m-r-actor,.m-r-director{
     display: block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
   }
   .m-info-r>.m-r-score{
     position: absolute;
     bottom: 0;
     left: 0;
   }
+  /*.error-img{*/
+    /*background-image: url("../../static/list/loddingerr.png");*/
+  /*}*/
 </style>
