@@ -54,4 +54,12 @@ export default new Router({
   ]
 })
 
-
+// import re
+//
+// subject = '//t.dyxz.la/upload/img/201705/poster_20170519_2290066_b.jpg'
+// # subject = '\\foler\\file.ext'
+//
+// # result = re.findall(r'[^///:*?]+$', subject)
+// result = re.findall(r'[^/*?]+$', subject)[0].replace('.jpg','')
+//
+// print result

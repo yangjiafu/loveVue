@@ -1,68 +1,44 @@
 <template>
-  <div style="padding-top: 50px">
+  <div style="padding-top: 50px;">
     <x-header slot="header" style="position: absolute;top: 0;left: 0;width: 100%;z-index: 1000" >
       <x-icon @click="after()" slot="overwrite-left" type="ios-arrow-left" size="35" style="fill:#fff;position:relative;top:-8px;left:-3px;"></x-icon>
       <input placeholder="输入搜索电影吧"
              class="search-style"
              autofocus
              type="text"
-             v-on:onkeydown="searchPost"
+             @keyup.enter="searchPost"
              v-model="searchInfo">
-      <!--<x-icon type="ios-search-strong" size="30" style="color: #fff;background-color: #fff"></x-icon>-->
     </x-header>
     <div class="search-box" v-if="searchInfo.length >= 1">
       <p style="padding: 20px 10px;margin: 0"
          @click="searchPost"
       >搜索"{{searchInfo}}"</p>
-      <!--<ul v-if="movieList.length>0">-->
-            <!--<li></li>-->
-      <!--</ul>-->
-
     </div>
-    <!--<img src="https://o5omsejde.qnssl.com/demo/test1.jpg" alt="">-->
     <ul  v-if="movieList.length>0">
       <li v-for="item in movieList">
         <div class="m-info-l">
-          <!--<img :src="item.cover" alt="">-->
-          <x-img  :src="item.cover" :offset="100"></x-img>
+          <div style="text-align: center">
+            <img :src="item.cover" error-class="ximg-error" :offset="-100" >
+          </div>
         </div>
         <div class="m-info-r">
           <p>{{item.name}}</p>
           <span>{{item.area}}&nbsp;|&nbsp;{{item.releasetime}}</span>
           <span class="m-r-director">
             {{item.director}}
-            <!--<span v-for="director in item.director">{{director}}&nbsp;</span>-->
           </span>
           <span class="m-r-actor">
             {{item.actor}}
-            <!--<span v-for="actor in item.actor">-->
-              <!--{{actor}}-->
-            <!--</span>-->
           </span>
           <span class="m-r-score">豆瓣评分:{{item.score}}</span>
         </div>
       </li>
-      <!--<li>-->
-        <!--<div class="m-info-l">-->
-          <!--<img src="static/list/神偷奶爸.jpg" alt="">-->
-        <!--</div>-->
-        <!--<div class="m-info-r">-->
-          <!--<p>神偷奶爸</p>-->
-          <!--<span>美国&nbsp;|&nbsp;2010</span>-->
-          <!--<span class="m-r-director">冯小刚</span>-->
-          <!--<span class="m-r-actor">拉塞尔.布克兰/史蒂夫/杰森.席格尔拉塞尔.布克兰/史蒂夫/杰森.席格尔拉塞尔.布克兰/史蒂夫/杰森.席格尔</span>-->
-          <!--<span class="m-r-score">豆瓣评分:9.0</span>-->
-        <!--</div>-->
-      <!--</li>-->
-
     </ul>
-    <button @click="readArr">修改数组</button>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex'
   import {XHeader,XImg}from 'vux'
-//  import {XHeader} from 'node_modules/vux/XHeader.vue'
   import Vue from 'vue'
   export default{
       components:{
@@ -103,28 +79,20 @@
                 for(let j in response.data){
                   _this.movieList.push(arr[j])
                 }
-              console.log(arr);
+                console.log(arr);
+                _this.searchInfo = ''
             }).catch(function (error) {
                 console.log(error)
               });
           },
-          readArr(){
-            console.log('输出'+this.movieList);
-          },
-
       },
-//      watch: {
-//        $route(to, from) {
-//          this.setTitle(to.path)
-//        }
-//      }
+
   }
 
 </script>
-<style scoped>
-
-  h1 > .vux-header-title{
-    margin: 0 20px 0 88px !important;
+<style>
+  .vux-header-title{
+    margin: 0 45px 0 60px !important;
   }
   .search-style{
     height: 25px;
@@ -137,6 +105,11 @@
      }
   .search-style:focus{
     outline:none;
+  }
+  .search-style>div{
+    margin-top: 0!important;
+    padding: 0!important;
+    height: 25px;
   }
   input::-webkit-input-placeholder{
     color: #e9e9e9;opacity:1;
@@ -168,13 +141,14 @@
     text-align: center;
     /*overflow: hidden;*/
   }
-  .m-info-l>img{
+  .m-info-l>div>img{
     /*max-width: 100%;*/
     width: 150px;
   }
   .m-info-r{
-    width: 60%;
+    width: 56%;
     height: 200px;
+    padding:0 8px;
     float: right;
     position: relative;
   }
@@ -186,20 +160,36 @@
     font-size: 14px;
     color: #999;
   }
-  .m-info-r>.m-r-actor,.m-r-director{
-    display: block;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
+  .m-info-r>.m-r-actor{
+    display: block!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:3!important;
+  }
+  .m-r-director{
+    display: block!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:3!important;
   }
   .m-info-r>.m-r-score{
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 8px;
   }
   /*.error-img{*/
     /*background-image: url("../../static/list/loddingerr.png");*/
   /*}*/
+
+  .ximg-error {
+    background-color: yellow;
+  }
+  .ximg-error:after {
+    content: '加载失败';
+    color: red;
+  }
 </style>
