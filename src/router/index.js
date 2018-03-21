@@ -7,6 +7,7 @@ import login from '@/components/login'
 import index from '@/components/index'
 import news from '@/components/news'
 import search from '@/components/search'
+import playVideo from '@/components/playVideo'
 
 Vue.use(Router)
 
@@ -45,12 +46,11 @@ export default new Router({
       path:'/login',
       name:'login',
       component:login
-    },
-    // {
-    //   path: '/home',
-    //   name: 'home',
-    //   component: home
-    // },
+    },{
+      path:'/playVideo',
+      name:'playVideo',
+      component:playVideo
+    }
   ]
 })
 

@@ -14,8 +14,9 @@
          @click="searchPost"
       >搜索"{{searchInfo}}"</p>
     </div>
+    <button  @click="goPlayVideo">  @click="goPlayVideo"</button>
     <ul  v-if="movieList.length>0">
-      <li v-for="item in movieList">
+      <li v-for="item in movieList" @click="goPlayVideo">
         <div class="m-info-l">
           <div style="text-align: center">
             <img :src="item.cover" error-class="ximg-error" :offset="-100" >
@@ -37,7 +38,7 @@
   </div>
 </template>
 <script>
-  import {mapState} from 'vuex'
+  import {mapState,mapMutations} from 'vuex'
   import {XHeader,XImg}from 'vux'
   import Vue from 'vue'
   export default{
@@ -58,6 +59,7 @@
         ...mapState(['url','qs'])
       },
       methods:{
+        ...mapMutations(['setMovieList','clearMovieList']),
           after(){
             this.$router.go(-1)
           },
@@ -70,20 +72,23 @@
             _this.movieList = [];
             this.$http.post(this.url+'search',
               this.qs.stringify({
-                'movie':this.searchInfo,
-//                'limit':''
-              }
+                'movie':this.searchInfo
+               }
               )
             ).then(function (response) {
                 arr = response.data;
                 for(let j in response.data){
                   _this.movieList.push(arr[j])
                 }
-                console.log(arr);
+              _this.setMovieList(_this.movieList)
+//                console.log(arr);
                 _this.searchInfo = ''
             }).catch(function (error) {
                 console.log(error)
               });
+          },
+          goPlayVideo(){
+            this.$router.push({name:'playVideo'})
           },
       },
 

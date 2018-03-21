@@ -7,6 +7,7 @@ const state = {
   url:'http://localhost:8000/',
   qs:require('qs'),//post请求是data的格式处理
   title:'首页',
+  movieList:[],
   isLoading: false,
   count: 23,
   name:'',
@@ -47,6 +48,14 @@ const mutations = {
     state.name=''
     state.pwd=''
     state.token=''
+  },
+  setMovieList(state,MovieList){
+    state.movieList = MovieList
+    state.movieList = []
+    console.log('清楚数据')
+  },
+  clearMovieList(){
+    state.movieList = []
   }
 }
 
@@ -56,6 +65,9 @@ const getters = {
 
     }
     return state.name
+  },
+  getMovieInfo(){
+    return state.movieList
   }
 }
 
