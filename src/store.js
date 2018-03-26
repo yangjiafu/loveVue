@@ -7,7 +7,10 @@ const state = {
   url:'http://localhost:8000/',
   qs:require('qs'),//post请求是data的格式处理
   title:'首页',
-  movieList:[],
+  movieInfo:{
+    m_a_list:[],//所有电影信息列表
+    m_o_list:[]//传入id过滤后的一个电影
+  },
   isLoading: false,
   count: 23,
   name:'',
@@ -50,12 +53,24 @@ const mutations = {
     state.token=''
   },
   setMovieList(state,MovieList){
-    state.movieList = MovieList
-    state.movieList = []
-    console.log('清楚数据')
+    state.movieInfo.m_a_list = MovieList
+    // state.movieList = []
+    console.log('不清楚数据'+MovieList)
   },
   clearMovieList(){
-    state.movieList = []
+    state.movieInfo.m_a_list = []
+  },
+  filterMovieInfo(state,id){
+    console.log('Id: '+id);
+    console.log(state.movieInfo.m_a_list)
+    for(let m in state.movieInfo.m_a_list){
+      console.log('输出所有电影id'+state.movieInfo.m_a_list[m].id);
+      if(state.movieInfo.m_a_list[m].id == id){
+        state.movieInfo.m_o_list = state.movieInfo.m_a_list[m]
+        break
+      }
+    }
+    // return state.movieList
   }
 }
 
@@ -66,8 +81,8 @@ const getters = {
     }
     return state.name
   },
-  getMovieInfo(){
-    return state.movieList
+  get_m_o_Info(){//获取过滤后的电影
+    return state.movieInfo.m_o_list
   }
 }
 

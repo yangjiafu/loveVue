@@ -6,6 +6,7 @@
     <br><br>
     <br><br>
     <br><br>
+    <button @click="cos">home</button>
     <h1>home</h1>
     <h1>home</h1>
     <h1>home</h1>
@@ -52,29 +53,32 @@
 //  import { Group, Cell } from 'vux'
 //  import routes from './router'
 //  import { mapState,mapMutations,mapGetters,mapActions } from 'vuex'
-//  export default {
-//    name: 'home',
+  export default {
+    name: 'home',
 //    components:{
-//      Group,
-//      Cell
+////      Group,
+////      Cell
 //    },
-//    data(){
-//      return{
-//        cookie:'',
-//        userInfo:{
-//          name:'杨',
-//          token:'12321asd',
-//          pwd:'123'
-//        }
-//      }
-//    },
+    data(){
+      return{
+        cookie:'',
+        userInfo:{
+          name:'杨',
+          token:'12321asd',
+          pwd:'123'
+        }
+      }
+    },
 //    computed:{
 //      ...mapGetters(['getUserInfo'])
 //    },
 //    mounted(){
 //      this.init()
 //    },
-//    methods:{
+    methods:{
+      cos(){
+        console.log('home点击');
+      },
 //      ...mapMutations([
 //        'setUserInfo','cheakUserInfo'
 //      ]),
@@ -86,22 +90,22 @@
 //        this.setUserInfo(this.userInfo)
 ////        console.log('读取')
 //      },
-//      goHome:()=>{
-//        console.log('gohome');
-////        routes.push({name:'home'})
-//      },
-//      goHot:()=>{
-//        console.log('goHot')
-//        routes.push({name:'hot'})
-//        console.log('goHot')
-//        //this.$router.push({path:'/hot'})
-//      },
-//      goUser:()=>{
-//        console.log('goUser');
-//        routes.push({name:'user'})
-//      }
-//    }
-//  }
+      goHome:()=>{
+        console.log('gohome');
+//        routes.push({name:'home'})
+      },
+      goHot:()=>{
+        console.log('goHot')
+        routes.push({name:'hot'})
+        console.log('goHot')
+        //this.$router.push({path:'/hot'})
+      },
+      goUser:()=>{
+        console.log('goUser');
+        routes.push({name:'user'})
+      }
+    }
+  }
 </script>
 
 <style>

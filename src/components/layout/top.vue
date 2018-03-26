@@ -22,6 +22,7 @@
     },
     methods:{
        goSearch(){
+         console.log('gosearch');
          this.$router.push({name:'search'})
        },
        showPath(){

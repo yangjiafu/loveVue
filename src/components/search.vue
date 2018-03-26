@@ -16,7 +16,7 @@
     </div>
     <button  @click="goPlayVideo">  @click="goPlayVideo"</button>
     <ul  v-if="movieList.length>0">
-      <li v-for="item in movieList" @click="goPlayVideo">
+      <li v-for="item in movieList" @click="goPlayVideo(item.id)">
         <div class="m-info-l">
           <div style="text-align: center">
             <img :src="item.cover" error-class="ximg-error" :offset="-100" >
@@ -87,8 +87,9 @@
                 console.log(error)
               });
           },
-          goPlayVideo(){
-            this.$router.push({name:'playVideo'})
+          goPlayVideo(id){
+//            console.log(id);
+            this.$router.push({name:'playVideo',params:{m_id:id}})
           },
       },
 
