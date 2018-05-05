@@ -13,9 +13,9 @@
         <img slot="icon" src="static/bottom/icon_nav_article.png">
         <span slot="label">用户</span>
       </tabbar-item>
-      <tabbar-item badge="2"  :selected="$store.state.title == '新闻'" link="/news">
+      <tabbar-item badge="2"  :selected="$store.state.title == '搜索'" link="/search">
         <img slot="icon" src="static/bottom/icon_nav_cell.png">
-        <span slot="label">新闻</span>
+        <span slot="label">搜索</span>
       </tabbar-item>
     </tabbar>
   </div>

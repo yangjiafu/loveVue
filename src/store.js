@@ -11,8 +11,13 @@ const state = {
     m_a_list:[],//所有电影信息列表
     m_o_list:[]//传入id过滤后的一个电影
   },
+  user:{
+    name:'',
+    id:'',
+    gender:'',
+    email:'',
+  },
   isLoading: false,
-  count: 23,
   name:'',
   token:'',
   pwd:''
@@ -24,8 +29,8 @@ const mutations = {
       state.title = '首页'
     else if(title =='/hot')
       state.title = '热门'
-    else if(title == '/news')
-      state.title = '新闻'
+    else if(title == '/search')
+      state.title = '搜索'
     else if(title == '/user')
       state.title = '用户'
   },
@@ -33,9 +38,7 @@ const mutations = {
     console.log(payload)
     state.isLoading = payload
   },
-  add(state){
-    state.count += 1
-  },
+
   setUserInfo(state,obj) {
     document.cookie = obj.name + ':' + obj.token
     state.name = obj.name
