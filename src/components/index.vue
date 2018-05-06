@@ -14,6 +14,8 @@
         <br>
         <hr>
         <h1>侧边</h1>
+        <button @click="clearUserInfo">退出登录</button>
+
       </div>
       <br><br>
       <!--<button @click="drawerVisibility = true">侧边栏</button>-->
@@ -42,9 +44,13 @@
           }
       },
       methods:{
-        ...mapMutations(['setTitle']),
+        ...mapMutations(['setTitle','clearUsersInfo']),
         changeLocale(){
             this.showMenu = false
+        },
+        clearUserInfo(){
+          this.clearUsersInfo()
+          this.$router.push({name:'login'})
         }
       },
       watch: {

@@ -12,15 +12,11 @@ const state = {
     m_o_list:[]//传入id过滤后的一个电影
   },
   user:{
-    name:'',
     id:'',
-    gender:'',
+    name:'',
     email:'',
   },
   isLoading: false,
-  name:'',
-  token:'',
-  pwd:''
 }
 
 const mutations = {
@@ -40,9 +36,9 @@ const mutations = {
   },
 
   setUserInfo(state,obj) {
-    document.cookie = obj.name + ':' + obj.token
-    state.name = obj.name
-    state.token = obj.token
+    state.user.id = obj.id
+    state.user.name = obj.name
+    state.user.email = obj.email
     console.log('修改成功');
   },
   cheakUserInfo(state){
@@ -50,10 +46,11 @@ const mutations = {
     var info = document.cookie.substring(0)
     console.log(info);
   },
-  clearUserInfo(state) {
-    state.name=''
-    state.pwd=''
-    state.token=''
+  clearUsersInfo(state) {
+    state.user.id = ''
+    state.user.name = ''
+    state.user.email = ''
+    console.log('清除成功');
   },
   setMovieList(state,MovieList){
     state.movieInfo.m_a_list = MovieList
