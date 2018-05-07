@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;">
+  <div style="height: 100%;padding-top: 46px">
     <div v-transfer-dom>
       <actionsheet v-model="showMenu" @on-click-menu="changeLocale"></actionsheet>
     </div>
@@ -17,7 +17,7 @@
         <button @click="clearUserInfo">退出登录</button>
 
       </div>
-      <br><br>
+      <!--<div style="height: 46px"></div>-->
       <!--<button @click="drawerVisibility = true">侧边栏</button>-->
       <!--<button @click="showMenu=!showMenu">actionsheet</button>-->
       <router-view/>

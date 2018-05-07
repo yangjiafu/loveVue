@@ -16,10 +16,40 @@ const state = {
     name:'',
     email:'',
   },
+  coockie:{
+
+  },
   isLoading: false,
 }
 
 const mutations = {
+  setCookie(self,dates){
+    var exdate = new Date();//获取时间
+    exdate.setTime(exdate.getTime()+24*60*60*1000*dates.u_days);//保存天数
+    window.document.cookie = 'userId'+'='+dates.u_id+';path=/;expires='+exdate.toGMTString();
+    window.document.cookie = 'userToken'+'='+dates.u_token+';path=/;expires='+exdate.toGMTString();
+  },
+  getCookie(){
+    var UArr = []
+    if(document.cookie.length>0){
+      var arr = document.cookie.split(';')
+      var obj = {id:'',token:''}
+      var userId=arr[0].replace('userId=','')
+      var userToken=arr[1].replace('userToken=','')
+      // for (var i in arr){
+      //   var arr2 = arr[i].split('=');
+      //   if( arr2[0]=='userId'){
+      //     obj.id = arr2[0]
+      //     console.info(arr2[1]+'; id第'+i)
+      //   }else if(arr2[0] == 'userToken'){
+      //     obj.token = arr2[0]
+      //     console.info(arr2[1]+'; token第'+i)
+      //   }
+      console.log(userId+'.........'+userToken);
+      UArr=arr
+      }
+    console.log(UArr);
+  },
   setTitle(state,title){
     if (title == '/home')
       state.title = '首页'
@@ -42,7 +72,6 @@ const mutations = {
     console.log('修改成功');
   },
   cheakUserInfo(state){
-    // var end = document.cookie.indexOf('')
     var info = document.cookie.substring(0)
     console.log(info);
   },
@@ -71,7 +100,8 @@ const mutations = {
       }
     }
     // return state.movieList
-  }
+  },
+
 }
 
 const getters = {
