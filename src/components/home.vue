@@ -95,7 +95,7 @@
         console.log(0);
       },
       clearCookieUser(){
-        this.setCookie({u_id:'',u_token:'',u_days:-1});
+        this.setCookie({id:'',token:'',days:-1});
       }
     }
   }

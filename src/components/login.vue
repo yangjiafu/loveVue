@@ -106,8 +106,29 @@
     computed:{
       ...mapState(['qs','url','user'])
     },
+    created:function(){
+      var _this = this
+      var obj = this.$store.getters.getCookie
+      console.log('cookielogin'+obj.id+obj.token)
+      if(obj){
+        this.$http.post(this.url+'tokenlogin',
+          this.qs.stringify({
+            'id':obj.id,
+            'token':obj.token.replace(' ','')
+          })
+        ).then(function (res) {
+          console.log(res);
+          _this.setUserInfo(res.data)
+          _this.$router.push({name:'home'})
+        }).catch(function (error) {
+          alert(error)
+        })
+      }else {
+          alert('not')
+      }
+    },
     methods:{
-      ...mapMutations(['setUserInfo']),
+      ...mapMutations(['setUserInfo', 'setCookie']),
           clear(){
             this.loginUser.n_account = false
             this.loginUser.e_user=false
@@ -133,6 +154,8 @@
                       }else if(res.data=='error'){
                           _this.loginUser.e_pwd = true
                       }else {
+                          res.data.days=7
+                        _this.setCookie(res.data)
                         _this.setUserInfo(res.data)
                         _this.$router.push({name:'home'})
                       }

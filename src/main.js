@@ -16,6 +16,7 @@ router.beforeEach((to, form, next) => {
   }else if(store.state.user.id) {
     next()
   }else {
+    console.log(store.state.user.id);
     next({path:'/login'})
   }
 })
