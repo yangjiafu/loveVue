@@ -17,7 +17,9 @@
           <span v-if="regUser.s<60" style="color: aliceblue" :class="{'color-red':regUser.s<10}">{{regUser.s}}s</span>
         </p>
       </div>
-      <div class="login-button"  style="color: yellow;border-color: yellow" >注册账号</div>
+      <div class="login-button" @click="regCommit"
+           :class="{'commit-time':regUser.s>0 && regUser.s<60}"
+      >注册账号</div>
     </div>
     <div class="react-box" style="background: none" :class="{'show-box':box.show_login}">
       <div class="input-box">
@@ -47,13 +49,13 @@
         <input type="text" class="account"placeholder="验证码" maxlength="4"  v-model="forgetUser.code">
         <p class="get-code">
           <span v-if="forgetUser.s==60" @click="getCode('forget')">获取验证码</span>
-          <span v-if="forgetUser.s<60" style="color: aliceblue" :class="{'color-red':forgetUser.s<10}">{{forgetUser.s}}s</span>
+          <span v-if="forgetUser.s<60" style="color: aliceblue"
+                :class="{'color-red':forgetUser.s<10}">{{forgetUser.s}}s</span>
         </p>
       </div>
-      <div class="login-button"  style="color: yellow;border-color: yellow" >提交</div>
+      <div class="login-button"@click="commitEditPwd"
+           :class="{'commit-time':forgetUser.s>0 && forgetUser.s<60}">提交</div>
     </div>
-
-
     <p v-if="box.show_login" class="forget-pwd" style="left: 20px" @click="changeBox('reg')">注册账号</p>
     <p v-if="box.show_login" class="forget-pwd" style="right: 20px;" @click="changeBox('forget')">忘记密码</p>
     <p v-if="!box.show_login" class="forget-pwd" style="right: 20px"
@@ -91,7 +93,8 @@
                 email:'',
                 pwd:'',
                 code:'',
-                s:60
+                s:60,
+                noCode:false
               },
               box:{
                 show_reg:false,
@@ -151,30 +154,168 @@
                 this.box.show_forget=true
               }
           },
+          regCommit(){
+             var reg=/[a-zA-Z0-9]{1,10}@[a-zA-Z0-9]{1,5}\.[a-zA-Z0-9]{1,5}/;
+              var _this = this
+              if(this.regUser.name.length<1){
+                alert('请填写昵称！');
+                return
+              }else if(this.regUser.email.length<1||!reg.test(this.regUser.email)){
+                alert('请正确填写邮箱或账号')
+                return
+              }else if(this.regUser.pwd.length<2){
+                alert('请正确填写密码')
+                return
+              }else if(this.regUser.code.length<4){
+                alert('请正确填写验证码')
+                return
+              }else{
+                this.$http.post(this.url+'registered',
+                  this.qs.stringify({
+                    'account':_this.regUser.email,
+                    'code':_this.regUser.code
+                  })
+                ).then(function (res) {
+                    console.log(res)
+                  if(res.data=='not email'){
+                      alert('邮箱错误！')
+                      return
+                  }else if(res.data=='code err'){
+                      alert('验证码错误！')
+                      return
+                  }else {
+                      alert('注册成功！')
+                    _this.box.show_login=true
+                    _this.box.show_reg=false
+                    _this.regUser.s =61
+                  }
+                }).catch(function (error) {
+                  alert(error)
+                })
+              }
+          },
           getCode(type){
-            console.log(type);
             var _this = this
+            var reg=/[a-zA-Z0-9]{1,10}@[a-zA-Z0-9]{1,5}\.[a-zA-Z0-9]{1,5}/;
             if(type=='reg'){
-              _this.regUser.s--
-              var t = setInterval(function () {
-                _this.regUser.s--
-                if(_this.regUser.s<0){
-                  _this.regUser.s=60
-                  clearTimeout(t)
+                if(this.regUser.name.length<1){
+                    alert('请填写昵称！');
+                    return
+                }else if(this.regUser.email.length<1||!reg.test(this.regUser.email)){
+                    alert('请正确填写邮箱或账号')
+                    return
+                }else if(this.regUser.pwd.length<2){
+                    alert('请正确填写密码')
+                    return
+                }else {
+                  this.$http.post(this.url+'getEmailCode',
+                    this.qs.stringify({
+                      'name':_this.regUser.name,
+                      'email':_this.regUser.email,
+                      'pwd':_this.regUser.pwd
+                    })
+                  ).then(function (res) {
+                    if(res.data=='have email'){
+                        alert('此邮箱以被注册！')
+                        return
+                    }
+                    else if(res.data=='buffer'){
+                      _this.regUser.s--
+                      var t = setInterval(function () {
+                        _this.regUser.s--
+                        if(_this.regUser.s<0||_this.regUser.s==60){
+                          _this.regUser.s=60
+                          clearTimeout(t)
+                        }
+                      },1000)
+                    }
+                  }).catch(function (error) {
+                    alert(error)
+                  })
                 }
-              },1000)
-            }else {
-
-              _this.forgetUser.s--
-              var t = setInterval(function () {
-                _this.forgetUser.s--
-                if(_this.forgetUser.s<0){
-                  _this.forgetUser.s=60
-                  clearTimeout(t)
-                }
-              },1000)
             }
-          }
+            else
+            {
+              if(this.forgetUser.email<1){
+                alert('请填写以注册的账号或邮箱！')
+                return
+              }
+              this.$http.post(this.url+'editPwd',
+              this.qs.stringify({
+                'type':'getcode',
+                'date':_this.forgetUser.email
+              })
+              ).then(function (res) {
+                console.log(res)
+                if(res.data=='not email'){
+                  alert('此邮箱不存在！')
+                  return
+                }else if(res.data=='not account'){
+                    alert('此账户号不存在！')
+                    return
+                }
+                else if(res.data=='success'){
+                  _this.forgetUser.s--
+                  var t = setInterval(function () {
+                    _this.forgetUser.s--
+                    if(_this.forgetUser.s<0||_this.forgetUser.s==60){
+                      _this.forgetUser.s=60
+                      clearTimeout(t)
+                    }
+                  },1000)
+                  }else {
+                    _this.forgetUser.noCode=true
+                }
+              }).catch(function (error) {
+                console.log(error);
+              })
+            }
+          },
+          commitEditPwd(){
+              var _this = this
+              if(this.forgetUser.email.length<1){
+                  alert('请填写以注册的账号或邮箱！')
+                  return
+              }else if(this.forgetUser.pwd.length<3){
+                  alert('请正确填写密码！')
+                  return
+              }else if(this.forgetUser.code.length<4){
+                  alert('请正确填写验证码！')
+                  return
+                }
+                else if(this.forgetUser.s==60){
+                      alert('请在提交时间内提交！')
+                }else
+                    {
+                  this.$http.post(this.url+'editPwd',
+                    this.qs.stringify({
+                      'type':'editpwd',
+                      'date':_this.forgetUser.email,
+                      'pwd':_this.forgetUser.pwd,
+                      'code':_this.forgetUser.code
+                    })
+                  ).then(function (res) {
+                    console.log(res.data);
+                    if(res.data=='not'){
+                          alert('账号或邮箱错误！')
+                          return
+                      }else if(res.data=='code error'){
+                          alert('验证码错误！')
+                      }else if(res.data=='pwd error'){
+                          alert('密码格式错误！')
+                      }else if(res.data=='success'){
+                          alert('可以登录啦！')
+                          _this.forgetUser.s = 61
+                          _this.forgetUser.pwd = ''
+                          _this.forgetUser.code = ''
+                          _this.box.show_login=true
+                          _this.box.show_forget=false
+                      }
+                    }).catch(function (error) {
+                      alert(error)
+                    })
+              }
+      }
     }
   }
 </script>
@@ -206,7 +347,7 @@
     font-size: 16px;
     padding-left: 5px;
     vertical-align: middle;
-    background-color: transparent;
+    background-color: transparent!important;
     border: none;
   }
   .account:focus{
@@ -270,5 +411,8 @@
   .color-red{
     font-weight: bold;
     color: red!important;
+  }
+  .commit-time{
+    color: yellow;border-color: yellow
   }
 </style>
