@@ -63,7 +63,7 @@ const mutations = {
   setMovieList(state,MovieList){
     state.movieInfo.m_a_list = MovieList
     // state.movieList = []
-    console.log('不清楚数据'+MovieList)
+    console.log('不清除数据'+MovieList)
   },
   clearMovieList(){
     state.movieInfo.m_a_list = []

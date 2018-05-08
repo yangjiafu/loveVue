@@ -9,6 +9,7 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+// Vue.prototype.$ajax = axios;
 
 router.beforeEach((to, form, next) => {
   if (to.path === '/login' || to.path ==='/registered'){
@@ -29,3 +30,26 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+
+// this.$http.post(this.url+'login',
+//   this.qs.stringify({
+//     'account':this.loginUser.account,
+//     'pwd':this.loginUser.pwd,
+//     'token':''
+//   })
+// ).then(function (res) {
+//   if(res.data=='not'){
+//     _this.loginUser.e_user = true
+//   }else if(res.data=='error'){
+//     _this.loginUser.e_pwd = true
+//   }else {
+//     res.data.days=7
+//     _this.setCookie(res.data)
+//     _this.setUserInfo(res.data)
+//     _this.$router.push({name:'home'})
+//   }
+//   console.log(res)
+// }).catch(function (error) {
+//   console.log(error);
+// })

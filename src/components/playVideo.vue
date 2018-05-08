@@ -1,6 +1,22 @@
 <template>
   <div>
-    <video style="width: 100%" :src="src"></video>
+    <video style="width: 100%" controls :src="v_arr[0].link1"></video>
+    <div class="info-title-box">
+      <div class="title-bottom left">
+        <p>{{m_info.name}}</p>
+        <span style="font-size: 8px;color: #ccc">豆瓣{{m_info.score}}</span>
+      </div>
+      <div class="title-bottom right" style="width: 20%">
+        <div class="like-box left" @click="isLike(1)">
+          <p class="iconfont">&#xeed2;</p>
+          <span style="font-size: 8px;color: #ccc">{{m_info.like}}</span>
+        </div>
+        <div class="like-box right" @click="isLike(0)">
+          <p class="iconfont">&#xe672;</p>
+          <span style="font-size: 8px;color: #ccc">{{m_info.dislike}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -41,8 +57,38 @@
               }
             }
             console.log(this.v_arr);
+          },
+          isLike(type){
+
           }
       }
   }
 
 </script>
+<style>
+  .info-title-box{
+    width: 100%;
+    height: 40px;
+  }
+  .title-bottom{
+    width: 35%;
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height:1.2;
+    text-align: left;
+    font-size: 16px;
+    display: inline-block;
+  }
+  .right{
+    float: right;
+  }
+  .left{
+    float: left;
+  }
+  .like-box{
+    width: 30px;
+    height:100%;
+    text-align: center;
+  }
+</style>

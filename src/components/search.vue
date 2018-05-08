@@ -14,7 +14,7 @@
          @click="searchPost"
       >搜索"{{searchInfo}}"</p>
     </div>
-    <button  @click="goPlayVideo">  @click="goPlayVideo"</button>
+    <!--<button  @click="goPlayVideo">  @click="goPlayVideo"</button>-->
     <ul  v-if="movieList.length>0">
       <li v-for="item in movieList" @click="goPlayVideo(item.id)">
         <div class="m-info-l">
@@ -47,13 +47,30 @@
       },
       data(){
           return{
-//            qs: require('qs'),
             searchInfo:'',
             movieList: []
         }
       },
       created:function () {
-//        this.searchPost()
+        var _this = this
+        console.log(this.$route.query.id);
+        if(this.$route.query.id){
+            this.$http.get(this.url+'searchMovie',{
+                params:{
+                    type:'id',
+                    movie:198
+                }
+            }).then(function (res) {
+              console.log(res);
+              var arr = res.data;
+              for(let j in res.data){
+                _this.movieList.push(arr[j])
+              }
+              _this.setMovieList(_this.movieList)
+            }).catch(function (error) {
+              console.log(error);
+            })
+        }
       },
       computed:{
         ...mapState(['url','qs'])
@@ -70,11 +87,12 @@
             let _this = this;
             let arr = [];
             _this.movieList = [];
-            this.$http.post(this.url+'search',
-              this.qs.stringify({
+            this.$http.get(this.url+'searchMovie',{
+                params:{
+                'type':'name',
                 'movie':this.searchInfo
                }
-              )
+            }
             ).then(function (response) {
                 arr = response.data;
                 for(let j in response.data){
@@ -87,6 +105,7 @@
                 console.log(error)
               });
           },
+
           goPlayVideo(id){
 //            console.log(id);
             this.$router.push({name:'playVideo',params:{m_id:id}})

@@ -1,9 +1,9 @@
 <template>
   <div style="height: 100%;padding-bottom: 54px">
-    <swiper height="150px" :aspect-ratio="300/800" auto loop  v-model="swiperItemIndex">
-      <swiper-item class="swiper-demo-img" v-for="(item, index) in demo04_list" :key="index" >
-        <img :src="item" @click="goMovieInfo(index)">
-        <p>current index: {{index}}</p>
+    <swiper height="150px" :aspect-ratio="300/800" auto loop v-model="swiperItemIndex">
+      <swiper-item class="swiper-demo-img" v-for="(item, index) in newMovie" :key="index" >
+        <img :src="item.cover" @click="goMovieInfo(item.id)">
+        <p class="movie-title">{{item.name}}</p>
       </swiper-item>
     </swiper>
     <br><br>
@@ -18,6 +18,7 @@
     <button @click="cos">home</button>
     <h1>home</h1>
     <h1>home</h1>
+    <!--<button @click="">axios测试</button>-->
     <h1>home</h1>
     <br>
     <p>home</p>
@@ -37,10 +38,15 @@
   import { Swiper,SwiperItem } from 'vux'
 //  import routes from './router'
   import { mapState,mapMutations } from 'vuex'
+  import axios from 'axios'
+
   export default {
     name: 'home',
     components:{
       Swiper, SwiperItem
+    },
+    computed:{
+      ...mapState(['qs','url','user'])
     },
     data(){
       return{
@@ -51,19 +57,30 @@
           pwd:'123'
         },
         swiperItemIndex:1,
-        demo04_list:[
-          'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-          'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-          'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
-        ]
+        newMovie:[]
       }
     },
-//    computed:{
-//      ...mapGetters(['getUserInfo'])
-//    },
-//    mounted(){
-//      this.init()
-//    },
+    created:function () {
+      var _this = this
+      _this.$http.get('http://localhost:8000/'+'getNewMovie',{
+          params:{
+            place:'home',
+            limit:3
+          }
+        }
+      ).then(function (res) {
+        for(var m in res.data){
+            var obj ={}
+            obj.name=res.data[m].name
+            obj.score=res.data[m].score
+            obj.cover=res.data[m].cover
+            obj.id=res.data[m].id
+          _this.newMovie.push(obj)
+        }
+      }).catch(function (error) {
+        console.log(error);
+      })
+    },
     methods:{
       ...mapMutations(['setCookie','getCookie']),
       cos(){
@@ -85,7 +102,8 @@
 //        routes.push({name:'home'})
       },
       goMovieInfo(index){
-          console.log(index)
+        console.log(index)
+        this.$router.push({name:'search',query:{id:index}})
       },
       setCookieUser(){
           this.setCookie({u_id:'12',u_token:'asfdawer234awefdsfwe',u_days:7})
@@ -97,6 +115,7 @@
       clearCookieUser(){
         this.setCookie({id:'',token:'',days:-1});
       }
+
     }
   }
 </script>
@@ -112,5 +131,18 @@
   }
   .swiper-demo-img img {
     width: 100%;
+  }
+
+  .vux-slider .movie-title{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color:#fff;
+    min-width: 100%;
+    padding: 4px 0;
+    background:-webkit-gradient(linear,right bottom,0 0,from(rgba(0,0,0,.3)),to(rgba(9,9,9,0)));
+    background:linear-gradient(to left, rgba(0,0,0,.3),rgba(9,9,9,0));
+    /*background:-webkit-radial-gradient(rgba(0,0,0,.2),rgba(9,9,9,.1),rgba(9,9,9,0));*/
+    z-index: 999
   }
 </style>

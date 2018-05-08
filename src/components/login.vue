@@ -113,9 +113,9 @@
       if(obj){
         this.$http.post(this.url+'tokenlogin',
           this.qs.stringify({
-            'id':obj.id,
-            'token':obj.token.replace(' ','')
-          })
+              'id':obj.id,
+              'token':obj.token.replace(' ','')
+            })
         ).then(function (res) {
           console.log(res);
           _this.setUserInfo(res.data)
