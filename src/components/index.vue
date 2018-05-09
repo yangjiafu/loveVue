@@ -1,20 +1,30 @@
 <template>
-  <div style="height: 100%;padding-top: 46px">
+  <div style="height: 100%;padding-top: 46px;">
     <div v-transfer-dom>
       <actionsheet v-model="showMenu" @on-click-menu="changeLocale"></actionsheet>
     </div>
     <drawer
       width="250px;"
       :show.sync="showMenu"
-      :drawer-style="{'background-color':'#fff', width: '70%',height:'100%',top:'0',position:'fixed'}"
+      :drawer-style="{'background':'transparent', width: '70%',height:'100%',top:'0',position:'fixed'}"
     >
-      <div slot="drawer">
-        <x-icon @click="showMenu=!showMenu" slot="overwrite-left" type="navicon" size="35" style=""></x-icon>
-        <p>侧边栏插槽</p>
-        <br>
-        <hr>
-        <h1>侧边</h1>
-        <button @click="clearUserInfo">退出登录</button>
+      <div slot="drawer" style="height: 100%;background: #f9f9f9">
+        <!--<x-icon @click="showMenu=!showMenu" slot="overwrite-left" type="navicon" size="35" style=""></x-icon>-->
+        <div class="header-box" >
+          <br><br><br>
+          <div class="cover-box">
+            <img src="/static/backgroud/loginBkg.jpg" alt="">
+          </div>
+          <p style="color: #f9f9f9">{{user.name}}</p>
+          <p style="color: #f9f9f9">{{user.email}}</p>
+
+          <p v-if="leave" style="position: absolute;bottom:30px;right: 50px;text-align: center">
+            <inline-loading></inline-loading>
+          </p>
+          <div class="clear-button" @click="clearUserInfo">退出登录</div>
+          <div class="clear-button" @click="clearCookie" style="left: 120px;background: linear-gradient(#fff, #888)">清除记录</div>
+          <!--<button @click="clearUserInfo">退出登录</button>-->
+        </div>
 
       </div>
       <!--<div style="height: 46px"></div>-->
@@ -27,30 +37,46 @@
   </div>
 </template>
 <script>
-  import {Actionsheet,Group,XSwitch,Drawer, TransferDomDirective as TransferDom  } from 'vux'
-  import {mapMutations} from 'vuex'
+  import {Actionsheet,Group,XSwitch,Drawer, InlineLoading,TransferDomDirective as TransferDom  } from 'vux'
+  import {mapMutations,mapState} from 'vuex'
   import Top from './layout/top.vue'
   import Bottom from './layout/bottom.vue'
   export default{
       directives: {
         TransferDom
       },
-      components: {Bottom,Top,Actionsheet,Group,XSwitch,Drawer },
+      components: {Bottom,Top,Actionsheet,Group,XSwitch,Drawer,InlineLoading },
 
       data(){
           return{
             showMenu:false,
-            drawerVisibility:false
+            drawerVisibility:false,
+            leave:false
           }
       },
+      computed:{
+        ...mapState(['user'])
+      },
       methods:{
-        ...mapMutations(['setTitle','clearUsersInfo']),
+        ...mapMutations(['setTitle','clearUsersInfo','setCookie']),
         changeLocale(){
             this.showMenu = false
         },
         clearUserInfo(){
-          this.clearUsersInfo()
-          this.$router.push({name:'login'})
+            var _this = this
+           this.leave = true
+           setTimeout(function () {
+             _this.clearUsersInfo()
+             _this.$router.push({name:'login'})
+            },500)
+        },
+        clearCookie(){
+          var _this = this
+          this.leave = true
+          setTimeout(function () {
+            _this.setCookie({id:'',token:'',days:-1})
+            _this.leave = false
+          },500)
         }
       },
       watch: {
@@ -126,6 +152,7 @@
 
   .vux-drawer > .vux-drawer-content{
     transition: transform ease-in-out 0.34s, visibility 0.34s, -webkit-transform ease-in-out 0.34s!important;
+    background: transparent;
   }
   .vux-header{
     /*background-color: #ff4324!important;*/
@@ -138,5 +165,34 @@
   }
   .vux-drawer > .vux-drawer-body > .drawer-mask{
     background-color: rgba(255,255,255,0)!important;
+  }
+  .header-box{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    text-align: left;
+    background: url('/static/backgroud/bg3.jpg') no-repeat;
+    position: relative;
+  }
+  .cover-box{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .cover-box img{
+    width: 100%;
+  }
+  .clear-button{
+    width: 80px;
+    height:30px;
+    position: absolute;
+    left: 20px;
+    bottom: 30px;
+    text-align: center;
+    color:#333;
+    background: linear-gradient(#ffffff, #888888);
+    border-radius: 20px;
+    box-shadow: 0px 5px 25px #000;
   }
 </style>

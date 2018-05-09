@@ -29,7 +29,7 @@
           <span class="iconfont" style="font-size: 22px">&#xe67c;</span>
         </div>
       </div>
-      <div class="comment-box" v-if="out_comment.length>0" v-for="item in out_comment">
+      <div class="comment-box" v-if="out_comment.length>0" v-for="(item, index) in out_comment">
         <div class="comment-top">
           <div class="user-cover left">
             <img :src="item.form_avatar" alt="">
@@ -44,9 +44,15 @@
           <p>{{item.content}}</p>
         </div>
         <div class="like-box right" @click="showInputBox(item.form_name,item.form_uid,item.c_id)">
-          <span class="iconfont">&#xe67b;</span>
+          <span class="iconfont">&#xe612;</span>
         </div>
-        <div v-if="item.reply.length>0" class="reply-box">
+        <div class="like-box right"
+             :class="{'flipx':!item.show_reply}"
+             v-if="item.reply.length>0"
+             @click="item.show_reply=!item.show_reply">
+          <span class="iconfont" >&#xe64d;</span>
+        </div>
+        <div v-show="item.reply.length>0" class="reply-box hidden-reply" :class="{'show-reply':!item.show_reply}">
           <div class="reply-u" v-for="res in item.reply">
               <span style="color: #83ADFF">{{res.r_name}}:</span>
               <span>{{res.r_content}}</span>
@@ -84,6 +90,7 @@
               },//用户评论电影的输入数据
               out_comment:[],
               showInBox:false,
+              showReply:-1,
               commentBoxName:''
           }
       },
@@ -153,6 +160,9 @@
                   'content': _this.in_comment.movie
                 })
                 ).then(function (res) {
+                    if(res.data=='success'){
+                        _this.getComment()
+                    }
                   console.log(res);
                 }).catch(function (error) {
                   console.log(error);
@@ -194,10 +204,16 @@
                   })
                   ).then(function (res) {
                     console.log('提交评论用户成功'+res);
+                    if(res.data=='success'){
+                      _this.getComment()
+                    }
                   }).catch(function (error) {
                     alert(error)
                   })
               }
+          },
+          showCReply(index){
+              this.showReply = index
           }
       }
   }
@@ -301,7 +317,7 @@
     min-height: 40px;
   }
   .reply-box{
-    width: 80%;
+    width: 90%;
     height:auto;
     background-color: #f0f0f0;
     border-radius: 5px;
@@ -311,5 +327,19 @@
     height: auto;
     padding: 10px;
     font-size: 14px;
+  }
+  .hidden-reply{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height .3s;
+  }
+  .show-reply{
+    width: 90%;
+    height:auto;
+  }
+  .flipx{
+    transform: rotate(90deg);
+    transition: all .3s;
   }
 </style>
