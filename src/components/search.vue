@@ -58,7 +58,8 @@
             this.$http.get(this.url+'searchMovie',{
                 params:{
                     type:'id',
-                    movie:198
+                    u_id:_this.user.id,
+                    movie:this.$route.query.id
                 }
             }).then(function (res) {
               console.log(res);
@@ -73,7 +74,7 @@
         }
       },
       computed:{
-        ...mapState(['url','qs'])
+        ...mapState(['url','qs','user'])
       },
       methods:{
         ...mapMutations(['setMovieList','clearMovieList']),
@@ -90,6 +91,7 @@
             this.$http.get(this.url+'searchMovie',{
                 params:{
                 'type':'name',
+                'u_id':_this.user.id,
                 'movie':this.searchInfo
                }
             }

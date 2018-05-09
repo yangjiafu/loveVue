@@ -101,9 +101,9 @@
         console.log('gohome');
 //        routes.push({name:'home'})
       },
-      goMovieInfo(index){
-        console.log(index)
-        this.$router.push({name:'search',query:{id:index}})
+      goMovieInfo(id){
+        console.log(id)
+        this.$router.push({name:'search',query:{id:id}})
       },
       setCookieUser(){
           this.setCookie({u_id:'12',u_token:'asfdawer234awefdsfwe',u_days:7})

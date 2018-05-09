@@ -62,14 +62,13 @@ const mutations = {
   },
   setMovieList(state,MovieList){
     state.movieInfo.m_a_list = MovieList
-    // state.movieList = []
     console.log('不清除数据'+MovieList)
   },
   clearMovieList(){
     state.movieInfo.m_a_list = []
   },
   filterMovieInfo(state,id){
-    console.log('Id: '+id);
+    // console.log('Id: '+id);
     console.log(state.movieInfo.m_a_list)
     for(let m in state.movieInfo.m_a_list){
       console.log('输出所有电影id'+state.movieInfo.m_a_list[m].id);

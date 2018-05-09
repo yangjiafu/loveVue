@@ -373,9 +373,9 @@
     background-color: transparent!important;
     border: none;
   }
-  .account:focus{
-    outline: none;
-  }
+  /*.account:focus{*/
+    /*outline: none;*/
+  /*}*/
   .input-box{
     height: 38px;
     width: 100%;
