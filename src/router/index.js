@@ -8,6 +8,7 @@ import index from '@/components/index'
 // import news from '@/components/news'
 import search from '@/components/search'
 import playVideo from '@/components/playVideo'
+import reply from '@/components/reply'
 
 Vue.use(Router)
 
@@ -59,6 +60,10 @@ export default new Router({
       path:'/playVideo',
       name:'playVideo',
       component:playVideo
+    },{
+      path:'/reply',
+      name:'reply',
+      component:reply
     }
   ]
 })
