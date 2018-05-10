@@ -34,7 +34,7 @@
           <div class="user-cover left">
             <img :src="item.form_avatar" alt="">
           </div>
-          <span>{{item.form_name}}</span>
+          <span style="color: #ff5646">{{item.form_name}}</span>
           <div class="like-box right" @click="CommentLike()">
             <p class="iconfont" >&#xeed2;</p>
             <span style="font-size: 8px;color: #ccc"></span>
@@ -50,6 +50,7 @@
              :class="{'flipx':!item.show_reply}"
              v-if="item.reply.length>0"
              @click="item.show_reply=!item.show_reply">
+          <span>{{item.reply.length}}</span>
           <span class="iconfont" >&#xe64d;</span>
         </div>
         <div v-show="item.reply.length>0" class="reply-box hidden-reply" :class="{'show-reply':!item.show_reply}">
@@ -243,6 +244,7 @@
   .like-box{
     width: 30px;
     height:100%;
+    transition: all .3s;
     /*text-align: center;*/
   }
   .like-color{
@@ -293,7 +295,7 @@
   .comment-box{
     width: 90%;
     padding: 5px 20px;
-    min-height: 100px;
+    min-height: 80px;
     text-align: left;
     overflow-y: scroll;
     border-bottom: 1px solid #eee;
@@ -305,7 +307,7 @@
   }
   .comment-content{
     width: 90%;
-    min-height:40px;
+    min-height:20px;
     overflow: auto;
   }
   .comment-content p{
@@ -314,7 +316,7 @@
     color: #111;
     word-wrap: break-word;
     line-height: 1;
-    min-height: 40px;
+    min-height: 20px;
   }
   .reply-box{
     width: 90%;
@@ -340,6 +342,5 @@
   }
   .flipx{
     transform: rotate(90deg);
-    transition: all .3s;
   }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>热门页面</h1>
-    <p>{{ msg }}</p>
+    <div class="comment-box">
+
+    </div>
   </div>
 </template>
 <script>
