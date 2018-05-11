@@ -122,7 +122,7 @@
     width: 95%;
     margin: auto;
     text-align: right;
-    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
   .hot-icon{
     width: 40px;

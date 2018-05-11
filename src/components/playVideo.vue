@@ -1,6 +1,9 @@
 <template>
   <div>
-    <video style="width: 100%" v-if="v_arr.length>0" controls :src="v_arr[0].link1"></video>
+    <div class="go-back" @click="goBackSearch" v-show="goBackBox" >
+      <span class="iconfont" style="line-height: 40px;font-size: 24px;">&#xe617;</span>
+    </div>
+    <video @click="showGoBack" style="width: 100%" v-if="v_arr.length>0" controls :src="v_arr[0].link1"></video>
     <div style="width: 100%;height: 200px" v-if="v_arr.length<1"><h2>数据出错了</h2></div>
     <div class="info-title-box">
       <div class="title-bottom left">
@@ -35,7 +38,7 @@
             <img :src="item.form_avatar" alt="">
           </div>
           <span style="color: #ff5646">{{item.form_name}}</span>
-          <div class="like-box right" @click="CommentLike()">
+          <div class="like-box right" @click="">
             <p class="iconfont" >&#xeed2;</p>
             <span style="font-size: 8px;color: #ccc"></span>
           </div>
@@ -92,7 +95,8 @@
               out_comment:[],
               showInBox:false,
               showReply:-1,
-              commentBoxName:''
+              commentBoxName:'',
+              goBackBox:false
           }
       },
       computed:{
@@ -103,6 +107,11 @@
           this.filterMovieInfo(this.$route.params.m_id);
           this.getLinkData();
           this.getComment();
+          let _this = this
+          this.goBackBox =! this.goBackBox
+          setTimeout(function () {
+            _this.goBackBox =! _this.goBackBox
+          },3000)
       },
       methods:{
           ...mapMutations(['filterMovieInfo']),
@@ -215,6 +224,20 @@
           },
           showCReply(index){
               this.showReply = index
+          },
+          showGoBack(){
+              let _this = this
+              this.goBackBox =! this.goBackBox
+              setTimeout(function () {
+                _this.goBackBox =! _this.goBackBox
+              },4000)
+          },
+          after(){
+            this.$router.go(-1)
+          },
+          goBackSearch(){
+            console.log('回去');
+            this.$router.go(-1)
           }
       }
   }
@@ -342,5 +365,16 @@
   }
   .flipx{
     transform: rotate(90deg);
+  }
+  .go-back{
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: all .3s;
+    /*background: rgba(0,0,0,.3);*/
   }
 </style>

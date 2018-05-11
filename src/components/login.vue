@@ -124,7 +124,7 @@
           alert(error)
         })
       }else {
-          alert('not')
+//          alert('not')
       }
     },
     methods:{

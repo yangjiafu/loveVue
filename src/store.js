@@ -93,7 +93,7 @@ const getters = {
     return state.movieInfo.m_o_list
   },
   getCookie(){
-    if(document.cookie.length>0){
+    if(window.document.cookie.length>0){
       var arr = document.cookie.split(';')
       var obj = {id:'',token:''}
       var userId=arr[0].replace('userId=','')

@@ -18,11 +18,14 @@
           <p style="color: #f9f9f9">{{user.name}}</p>
           <p style="color: #f9f9f9">{{user.email}}</p>
 
-          <p v-if="leave" style="position: absolute;bottom:30px;right: 50px;text-align: center">
+          <p v-if="leave" style="position: absolute;bottom:30px;left: 20px;text-align: center">
             <inline-loading></inline-loading>
           </p>
-          <div class="clear-button" @click="clearUserInfo">退出登录</div>
-          <div class="clear-button" @click="clearCookie" style="left: 120px;background: linear-gradient(#fff, #888)">清除记录</div>
+          <!--<div class="clear-button" @click="clearUserInfo">退出登录</div>-->
+          <div class="clear-button" @click="clearCookie">
+            <span class="iconfont" style="font-size: 30px">&#xe60d;</span>
+            <!--退出-->
+          </div>
           <!--<button @click="clearUserInfo">退出登录</button>-->
         </div>
 
@@ -62,20 +65,22 @@
         changeLocale(){
             this.showMenu = false
         },
-        clearUserInfo(){
-            var _this = this
-           this.leave = true
-           setTimeout(function () {
-             _this.clearUsersInfo()
-             _this.$router.push({name:'login'})
-            },500)
-        },
+//        clearUserInfo(){
+//            var _this = this
+//           this.leave = true
+//           setTimeout(function () {
+//             _this.clearUsersInfo()
+//             _this.$router.push({name:'login'})
+//            },500)
+//        },
         clearCookie(){
           var _this = this
           this.leave = true
+          _this.clearUsersInfo()
+          this.setCookie({id:'',token:'',days:-1})
           setTimeout(function () {
-            _this.setCookie({id:'',token:'',days:-1})
-            _this.leave = false
+            this.leave = false
+            _this.$router.push({name:'login'})
           },500)
         }
       },
@@ -184,15 +189,17 @@
     width: 100%;
   }
   .clear-button{
-    width: 80px;
-    height:30px;
+    width: 50px;
+    height:50px;
     position: absolute;
-    left: 20px;
-    bottom: 30px;
-    text-align: center;
-    color:#333;
-    background: linear-gradient(#ffffff, #888888);
-    border-radius: 20px;
+    right: 30px;
+    bottom: 10px;
+    /*line-height: 30px;*/
+    /*text-align: center;*/
+    color: #eee;
+    /*border: 1px solid #aaa;*/
+    /*background: #999;*/
+    /*border-radius: 20px;*/
     box-shadow: 0px 5px 25px #000;
   }
 </style>
