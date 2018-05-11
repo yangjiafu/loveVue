@@ -15,6 +15,12 @@
 
       </textarea>
     </div>
+    <form name="f_upload" enctype="multipart/form-data">
+      <input type="text" name="username" /><br>
+      <input type="file" name="filename" accept="image/*"  multiple="multiple" @change="selectImg()" /><br>
+      <input type="submit" value="上传" />
+    </form>
+    <div id="imgBox"></div>
     <div :class="{'commit-prompt':isPublish}">
       <div v-show="is_success">
         <span class="iconfont " style="font-size: 30px">&#xe6b8;</span>
@@ -68,6 +74,23 @@
                 }).catch(function (error) {
                     alter(error);
                 })
+            },
+            selectImg(){
+              var fil = event.target.files;
+              console.log(fil);
+              for (var i=0;i<fil.length;i++) {
+                console.log(fil[i]);
+                console.log('--------------------------');
+                this.reads(fil[i]);
+              }
+            },
+            reads(fil){
+              var reader = new FileReader();
+              reader.readAsDataURL(fil);
+              reader.onload = function(){
+                 document.getElementById("imgBox").innerHTML += "<img src='"+reader.result+"'>";
+  //              $('#inputs').after("<img src='"+reader.result+"'>");
+              };
             }
       }
   }
@@ -83,7 +106,7 @@
     text-align: center;
   }
   .cancel{
-    width: 80px;
+    width: 50px;
     height: 100%;
     display: inline-block;
     line-height: 40px;

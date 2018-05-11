@@ -133,4 +133,22 @@
   .like-color{
     color: #FF4609;
   }
+  .info-talk-bottom{
+    position: fixed;
+    bottom: -2px;
+    height:30px;
+    width: 100%;
+    text-align: left;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+  }
+  .input-style{
+    width: 65%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #888;
+    padding-left: 10px;
+    border: none;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-bottom: 40px">
     <div class="publish-top">
       <div class="cancel left" @click="$router.go(-1)">
         <span class="iconfont">&#xe617;</span>
@@ -45,7 +45,7 @@
         </div>
         <p style="color: #ff5646;line-height: 1">{{item.name}}</p>
         <div class="like-box right"
-          @click="doLikeReply(item.id,item.replyId, index)"
+          @click="doLikeReply(item.replyId, index)"
           :class="{'like-color':item.isLike}"
         >
           {{item.like}}
@@ -58,8 +58,10 @@
     </div>
     <div class="info-talk-bottom">
       <input type="text" class="input-style"
-             style="width: 80%" placeholder="对{{}}说点什么吧">
+             v-model="replyContent"
+             style="width: 80%" placeholder="对Ta说点什么吧...">
       <div class="like-box right"
+           @click="commitReply"
            style="width: 15%;font-size: 24px">
         <span class="iconfont">&#xe67c;</span>
       </div>
@@ -72,7 +74,8 @@
       data(){
           return {
             commentId:0,
-            commentInfo:{}
+            commentInfo:{},
+            replyContent:''
         }
       },
       created:function () {
@@ -125,8 +128,8 @@
             alert(error)
           })
         },
-        doLikeReply(ruid,replyId,index){
-            let _this = this
+        doLikeReply(replyId,index){
+          let _this = this
           this.$http.post(this.url+'doHotLike',
             this.qs.stringify({
               type:'reply',
@@ -139,6 +142,26 @@
               _this.commentInfo.reply[index].like -= 1
             }else{
               _this.commentInfo.reply[index].like += 1
+            }
+          }).catch(function (error) {
+            alert(error)
+          })
+        },
+        commitReply(){
+            if(this.replyContent.length<1){
+                alert('请输入内容')
+                return
+            }
+          let _this = this
+          this.$http.post(this.url+'commitHotReply',
+            this.qs.stringify({
+              hr_uid:this.user.id,
+              hr_content:this.replyContent,
+              hr_fromid:this.commentId
+            })).then(function (res) {
+            if(res.data!=='error'){
+              _this.commentInfo.reply.unshift({'name':_this.user.name,'isLike':false,'like':0,
+                'reply':_this.replyContent,'replyId': res.data.hr_id})
             }
           }).catch(function (error) {
             alert(error)
