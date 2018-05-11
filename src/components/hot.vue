@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hot-box" v-for="item in commentInfo" @click="goHotReply(item.commentId)">
+    <div class="hot-box" v-for="(item, index) in commentInfo">
       <div class="hot-top">
         <div class="hot-avatar left">
           <img src="/static/backgroud/bg3.jpg" alt="">
@@ -16,7 +16,8 @@
           {{item.replays}}
           <span class="iconfont">&#xe612;</span>
         </div>
-        <div class="hot-icon like" @click="doLike(item.commentId)">
+        <div class="hot-icon like":class="{'like-color':item.isLike}"
+             @click="doLike(item.commentId,index)">
           {{item.like}}
           <span class="iconfont">&#xeed2;</span>
         </div>
@@ -59,7 +60,8 @@
             console.log(error);
           })
       },
-      doLike(commentId){
+      doLike(commentId,index){
+        let _this = this
           this.$http.post(this.url+'doHotLike',
           this.qs.stringify({
             type:'comment',
@@ -67,13 +69,19 @@
             comment_id:commentId
           })).then(function (res) {
             console.log(res);
+            _this.commentInfo[index].isLike = !_this.commentInfo[index].isLike
+            if(res.data=='sub'){
+              _this.commentInfo[index].like -= 1
+            }else{
+              _this.commentInfo[index].like += 1
+            }
           }).catch(function (error) {
             alert(error)
           })
       },
       goHotReply(id){
-//        console.log(id);
-//          this.$router.push({'name':'reply',params:{commentId:id}})
+        console.log(id);
+          this.$router.push({'name':'reply',params:{commentId:id}})
       }
     }
   }
@@ -121,5 +129,8 @@
     height: 30px;
     margin-right: 20px;
     display: inline-block;
+  }
+  .like-color{
+    color: #FF4609;
   }
 </style>
