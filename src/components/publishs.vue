@@ -7,20 +7,27 @@
         <span style="line-height: 40px">yousername</span>
       </div>
       <div class="commit-button right"
-           :class="{'permit-commit':comment.length>0}"
+           :class="{'permit-commit':(comment.length>0&&type=='text' )|| fileLength>0}"
            @click="commitComment">发布</div>
     </div>
-    <div class="publish-body">
-      <textarea placeholder="分享些什么吧..." v-model="comment" name="" id="" cols="30" rows="10">
-
+    <div class="publish-body" v-if="type=='text'">
+      <textarea placeholder="分享些什么吧..." v-model="comment" name=""cols="30" rows="10">
       </textarea>
     </div>
-    <form name="f_upload" enctype="multipart/form-data">
-      <input type="text" name="username" /><br>
-      <input type="file" name="filename" accept="image/*"  multiple="multiple" @change="selectImg()" /><br>
-      <input type="submit" value="上传" />
-    </form>
-    <div id="imgBox"></div>
+    <div class="publish-body" v-if="type=='img'">
+      <form id="commentFile" style="min-height: 80px" name="commentFile" enctype="multipart/form-data">
+        <input type="text" name="commentUId" v-model="user.id" style="width: 0;height: 0;overflow: hidden">
+        <textarea placeholder="分享些什么吧..." v-model="comment" name="commentText" cols="30" rows="10">
+          </textarea>
+        <div  class="select-button" v-if="fileLength>0" @click="clearSelect">取消选择</div>
+        <div class="select-button" id="imgSelectFile" v-if="fileLength<1">
+          <div>添加图片</div>
+           <input  type="file" name="commentImg" accept="image/*"
+               multiple="multiple" @change="selectImg()" /></div>
+            <p style="color: #ddd;font-size: 12px;float: left;margin-left: 10px;margin-top: 20px">最多可选9张</p>
+      </form>
+      <div id="imgBox"></div>
+    </div>
     <div :class="{'commit-prompt':isPublish}">
       <div v-show="is_success">
         <span class="iconfont " style="font-size: 30px">&#xe6b8;</span>
@@ -41,11 +48,16 @@
               comment:'',
               isPublish:false,
               is_success:false,
-              is_error:false
+              is_error:false,
+              type:'',
+              fileLength:0
           }
       },
       computed:{
           ...mapState(['url','qs','user'])
+      },
+      created:function(){
+          this.type = this.$route.params.type
       },
       methods:{
             goBack(){
@@ -53,18 +65,19 @@
             },
             commitComment(){
                 let _this = this
+              if(this.type=='text'){
                 this.$http.post(_this.url+'commitHotComment',
                   _this.qs.stringify({
                     type:'comment',
                     h_uid:_this.user.id,
                     h_comment: _this.comment,
-                    })
-                  ).then(function (res) {
+                  })
+                ).then(function (res) {
                   _this.isPublish=true
                   if(res.data=='success'){
-                      _this.is_success=true
+                    _this.is_success=true
                   }else {
-                      _this.is_error=true
+                    _this.is_error=true
                   }
                   setInterval(function () {
                     _this.is_success=false
@@ -72,25 +85,55 @@
                     _this.isPublish=false
                   },1000)
                 }).catch(function (error) {
-                    alter(error);
+                  alter(error);
                 })
+              }else {
+                let form = document.getElementById('commentFile')
+                let fd = new FormData(form)
+                this.$http.post(_this.url+'commitHotFile',
+                  _this.qs.stringify({
+                    fd
+                  })
+                ).then(function (res) {
+                  console.log(res);
+                }).catch(function (error) {
+                  console.log(error)
+                })
+              }
+
             },
             selectImg(){
               var fil = event.target.files;
-              console.log(fil);
-              for (var i=0;i<fil.length;i++) {
-                console.log(fil[i]);
-                console.log('--------------------------');
-                this.reads(fil[i]);
+              this.fileLength = fil.length
+              if(fil.length>9){
+                  this.fileLength = 0
+                  this.clearSelect()
+                  alert('选择图片超过规定个数将被释放，请重新选择！')
               }
+              else {
+                for (var i=0;i<fil.length;i++) {
+//                console.log(fil[i]);
+//                console.log('--------------------------');
+                  this.reads(fil[i]);
+                }
+              }
+
             },
             reads(fil){
               var reader = new FileReader();
               reader.readAsDataURL(fil);
               reader.onload = function(){
-                 document.getElementById("imgBox").innerHTML += "<img src='"+reader.result+"'>";
+                 document.getElementById("imgBox").innerHTML +=
+                   "<div><img src='"+reader.result+"'></div>";
   //              $('#inputs').after("<img src='"+reader.result+"'>");
               };
+            },
+            clearSelect(){
+//              console.log(document.getElementById('imgBox'));
+//              console.log(obj);
+//              obj.outerHTML = obj.outerHTML
+              document.getElementById("imgBox").innerHTML=''
+              this.fileLength = 0
             }
       }
   }
@@ -161,5 +204,37 @@
     transition: all .1s;
     border-radius: 5px;
     /*background: #cccccc*/
+  }
+  #imgBox{
+    width: 100%;
+    height: 300px;
+    margin-top: 80px;
+  }
+  #imgBox>div{
+    width: 33.3%;
+    height: 100px;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+  }
+  #imgBox>div>img{
+    width: 100%;
+  }
+  .select-button{
+    padding: 4px 10px;
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    line-height: 20px;
+    display: inline-block;
+    border: 1px solid #e5e5e5;
+    color: #ccc;
+    /*background: url("/static/backgroud/s_bg_img.png") no-repeat;*/
+  }
+  .select-button >div{
+    position: absolute;width: 80px;height: 30px;text-align: center;line-height: 30px;z-index: -1
+  }
+  .select-button>input{
+    width: 80px;height: 30px;opacity: 0;z-index: 3
   }
 </style>
