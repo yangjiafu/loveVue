@@ -17,12 +17,12 @@
     <div class="publish-body" v-if="type=='img'">
       <form id="commentFile" style="min-height: 80px" name="commentFile" enctype="multipart/form-data">
         <input type="text" name="commentUId" v-model="user.id" style="width: 0;height: 0;overflow: hidden">
-        <textarea placeholder="分享些什么吧..." v-model="comment" name="commentText" cols="30" rows="10">
+        <textarea placeholder="分享些什么吧..." v-model="comment" type="text" name="commentText" cols="30" rows="10">
           </textarea>
-        <div  class="select-button" v-if="fileLength>0" @click="clearSelect">取消选择</div>
-        <div class="select-button" id="imgSelectFile" v-if="fileLength<1">
+        <div  class="select-button" v-show="fileLength>0" @click="clearSelect">取消选择</div>
+        <div class="select-button" id="imgSelectFile" v-show="fileLength<1">
           <div>添加图片</div>
-           <input  type="file" name="commentImg" accept="image/*"
+           <input id="filed" type="file" name="commentImg" accept="image/*"
                multiple="multiple" @change="selectImg()" /></div>
             <p style="color: #ddd;font-size: 12px;float: left;margin-left: 10px;margin-top: 20px">最多可选9张</p>
       </form>
@@ -90,11 +90,17 @@
               }else {
                 let form = document.getElementById('commentFile')
                 let fd = new FormData(form)
-                this.$http.post(_this.url+'commitHotFile',
-                  _this.qs.stringify({
-                    fd
-                  })
-                ).then(function (res) {
+//                let files = event.target.files
+//                console.log(files);
+//                let param = new FormData()
+//                param.append('file',files)
+//                param.append('uid',this.user.id)
+//                console.log(param);
+                let config = {
+                    headers:{'Content-Type':'multipart/form-data'}
+                }
+                this.$http.post(_this.url+'commitHotFile',fd, config)
+                .then(function (res) {
                   console.log(res);
                 }).catch(function (error) {
                   console.log(error)
@@ -129,9 +135,8 @@
               };
             },
             clearSelect(){
-//              console.log(document.getElementById('imgBox'));
-//              console.log(obj);
-//              obj.outerHTML = obj.outerHTML
+              let obj =document.getElementById('filed');
+              obj.outerHTML = obj.outerHTML
               document.getElementById("imgBox").innerHTML=''
               this.fileLength = 0
             }
