@@ -63,6 +63,20 @@
             goBack(){
               this.$router.go(-1)
             },
+            commitStatus(res){
+                let _this = this
+              setTimeout(function () {
+                _this.is_success=false;
+                _this.is_error=false;
+                _this.isPublish=false
+              },3000);
+              this.isPublish=true
+              if(res.data=='success'){
+                this.is_success=true
+              }else {
+                this.is_error=true
+              }
+            },
             commitComment(){
                 let _this = this
               if(this.type=='text'){
@@ -73,35 +87,20 @@
                     h_comment: _this.comment,
                   })
                 ).then(function (res) {
-                  _this.isPublish=true
-                  if(res.data=='success'){
-                    _this.is_success=true
-                  }else {
-                    _this.is_error=true
-                  }
-                  setInterval(function () {
-                    _this.is_success=false
-                    _this.is_error=false
-                    _this.isPublish=false
-                  },1000)
+                  _this.commitStatus(res)
                 }).catch(function (error) {
                   alter(error);
                 })
               }else {
                 let form = document.getElementById('commentFile')
                 let fd = new FormData(form)
-//                let files = event.target.files
-//                console.log(files);
-//                let param = new FormData()
-//                param.append('file',files)
-//                param.append('uid',this.user.id)
-//                console.log(param);
                 let config = {
                     headers:{'Content-Type':'multipart/form-data'}
                 }
                 this.$http.post(_this.url+'commitHotFile',fd, config)
                 .then(function (res) {
                   console.log(res);
+                  _this.commitStatus(res)
                 }).catch(function (error) {
                   console.log(error)
                 })
@@ -202,11 +201,12 @@
     width: 80px;
     height: 80px;
     margin: auto;
-    left:0;
-    right: 0;
+    top: 100px!important;
+    left:0!important;
+    right: 0!important;
     color: #FF6B38;
     background: rgba(0,0,0,0.1);
-    transition: all .1s;
+    transition: all .2s;
     border-radius: 5px;
     /*background: #cccccc*/
   }

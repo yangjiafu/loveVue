@@ -10,6 +10,10 @@
       </div>
       <div class="hot-content">
         <p>{{item.comment}}</p>
+        <div v-if="item.img.length>0"
+             v-for="img in item.img"  class="img-box" >
+          <img @click="plusImg(url+img,index)" :src="url+img" alt="">
+        </div>
       </div>
       <div class="hot-bottom">
         <div class="hot-icon like" @click="goHotReply(item.commentId)">
@@ -23,6 +27,9 @@
         </div>
       </div>
     </div>
+    <div id="box" v-show='bigImg' :class="{'bigImg': bigImg}" @click="plusImg(0)" >
+      <img @click.stop="plusImg(0)" :src="plusPath" alt="">
+    </div>
   </div>
 </template>
 <script>
@@ -31,7 +38,9 @@
     name: 'hot',
     data () {
       return {
-        commentInfo:[]
+        commentInfo:[],
+        bigImg:false,
+        plusPath:''
       }
     },
     computed:{
@@ -82,6 +91,18 @@
       goHotReply(id){
         console.log(id);
           this.$router.push({'name':'reply',params:{commentId:id}})
+      },
+      plusImg(path,index){
+        this.bigImg = !this.bigImg
+        if(path){
+            this.plusPath = path
+            var box= document.getElementById("box");
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            box.style.paddingTop = t+100+"px";
+            document.body.style.overflow='hidden';
+          }else {
+            document.body.style.overflow = 'scroll'
+          }
       }
     }
   }
@@ -117,6 +138,35 @@
     line-height: 1.1em;
     box-sizing: border-box;
   }
+  .img-box{
+    width: 33.3%;
+    height: 80px;
+    display: inline-block;
+    overflow: hidden;
+  }
+  .img-box>img{
+    width: 100%;
+  }
+  .bigImg{
+    position: fixed!important;
+    background:rgba(0,0,0,.4);
+    top: 0 ;
+    left:0;
+    bottom: 0;
+    z-index: 9999;
+    padding-top: 40px;
+    width: 100%;
+    height:100%;
+    transition: all .3s;
+    text-align: center;
+    overflow: auto;
+  }
+  .bigImg>img{
+    width: auto;
+    max-width: 90%;
+    margin: auto;
+  }
+
   .hot-bottom{
     height: 30px;
     width: 95%;

@@ -23,7 +23,7 @@
         <!--<img :src="" alt="">-->
       </div>
     </div>
-    <div class="publish-top" style="position: static;margin-bottom: 10px">
+    <div class="publish-top" style="position: static;margin-bottom: 10px;padding: 0 10px">
       <div class="cancel left" v-if="commentInfo.reply">
         <span>评论{{commentInfo.reply.length}}</span>
       </div>
