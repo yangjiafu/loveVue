@@ -30,10 +30,12 @@
     <div id="box" v-show='bigImg' :class="{'bigImg': bigImg}" @click="plusImg(0)" >
       <img @click.stop="plusImg(0)" :src="plusPath" alt="">
     </div>
+    <div id="refresh" style="width: 100%;height: 40px"></div>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex'
+  import Scroll from './scroller/v-scroll.vue'
   export default {
     name: 'hot',
     data () {
@@ -108,97 +110,97 @@
   }
 </script>
 <style>
-  .hot-box{
-    width: 100%;
-    min-height: 130px;
-    text-align: left;
-  }
-  .hot-top{
-    width: 100%;
-    height: 45px;
-    box-sizing: border-box;
-    padding: 10px;
-  }
- .hot-avatar{
-    width: 40px;
-    height:40px;
-    display: inline-block;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 10px;
-  }
-  .hot-avatar>img{
-    width: 100%;
-  }
-  .hot-content{
-    min-height: 20px;
-    width: 100%;
-    padding: 10px;
-    color: #111;
-    line-height: 1.1em;
-    box-sizing: border-box;
-  }
-  .img-box{
-    width: 33.3%;
-    height: 80px;
-    display: inline-block;
-    overflow: hidden;
-  }
-  .img-box>img{
-    width: 100%;
-  }
-  .bigImg{
-    position: fixed!important;
-    background:rgba(0,0,0,.4);
-    top: 0 ;
-    left:0;
-    bottom: 0;
-    z-index: 9999;
-    padding-top: 40px;
-    width: 100%;
-    height:100%;
-    transition: all .3s;
-    text-align: center;
-    overflow: auto;
-  }
-  .bigImg>img{
-    width: auto;
-    max-width: 90%;
-    margin: auto;
-  }
+  /*.hot-box{*/
+    /*width: 100%;*/
+    /*min-height: 130px;*/
+    /*text-align: left;*/
+  /*}*/
+  /*.hot-top{*/
+    /*width: 100%;*/
+    /*height: 45px;*/
+    /*box-sizing: border-box;*/
+    /*padding: 10px;*/
+  /*}*/
+ /*.hot-avatar{*/
+    /*width: 40px;*/
+    /*height:40px;*/
+    /*display: inline-block;*/
+    /*border-radius: 50%;*/
+    /*overflow: hidden;*/
+    /*margin-right: 10px;*/
+  /*}*/
+  /*.hot-avatar>img{*/
+    /*width: 100%;*/
+  /*}*/
+  /*.hot-content{*/
+    /*min-height: 20px;*/
+    /*width: 100%;*/
+    /*padding: 10px;*/
+    /*color: #111;*/
+    /*line-height: 1.1em;*/
+    /*box-sizing: border-box;*/
+  /*}*/
+  /*.img-box{*/
+    /*width: 33.3%;*/
+    /*height: 80px;*/
+    /*display: inline-block;*/
+    /*overflow: hidden;*/
+  /*}*/
+  /*.img-box>img{*/
+    /*width: 100%;*/
+  /*}*/
+  /*.bigImg{*/
+    /*position: fixed!important;*/
+    /*background:rgba(0,0,0,.4);*/
+    /*top: 0 ;*/
+    /*left:0;*/
+    /*bottom: 0;*/
+    /*z-index: 9999;*/
+    /*padding-top: 40px;*/
+    /*width: 100%;*/
+    /*height:100%;*/
+    /*transition: all .3s;*/
+    /*text-align: center;*/
+    /*overflow: auto;*/
+  /*}*/
+  /*.bigImg>img{*/
+    /*width: auto;*/
+    /*max-width: 90%;*/
+    /*margin: auto;*/
+  /*}*/
 
-  .hot-bottom{
-    height: 30px;
-    width: 95%;
-    margin: auto;
-    text-align: right;
-    border-bottom: 1px solid #ddd;
-  }
-  .hot-icon{
-    width: 40px;
-    height: 30px;
-    margin-right: 20px;
-    display: inline-block;
-  }
-  .like-color{
-    color: #FF4609;
-  }
-  .info-talk-bottom{
-    position: fixed;
-    bottom: -2px;
-    height:30px;
-    width: 100%;
-    text-align: left;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-  }
-  .input-style{
-    width: 65%;
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-    color: #888;
-    padding-left: 10px;
-    border: none;
-  }
+  /*.hot-bottom{*/
+    /*height: 30px;*/
+    /*width: 95%;*/
+    /*margin: auto;*/
+    /*text-align: right;*/
+    /*border-bottom: 1px solid #ddd;*/
+  /*}*/
+  /*.hot-icon{*/
+    /*width: 40px;*/
+    /*height: 30px;*/
+    /*margin-right: 20px;*/
+    /*display: inline-block;*/
+  /*}*/
+  /*.like-color{*/
+    /*color: #FF4609;*/
+  /*}*/
+  /*.info-talk-bottom{*/
+    /*position: fixed;*/
+    /*bottom: -2px;*/
+    /*height:30px;*/
+    /*width: 100%;*/
+    /*text-align: left;*/
+    /*padding: 5px 10px;*/
+    /*background-color: #f0f0f0;*/
+  /*}*/
+  /*.input-style{*/
+    /*width: 65%;*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+    /*font-size: 14px;*/
+    /*color: #888;*/
+    /*padding-left: 10px;*/
+    /*border: none;*/
+  /*}*/
 </style>

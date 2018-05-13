@@ -9,6 +9,7 @@
         <span style="line-height: 40px">{{user.name}}</span>
       </div>
     </div>
+
     <div style="height: 40px"></div>
     <div class="hot-box">
       <div class="hot-top">
@@ -20,9 +21,19 @@
       </div>
       <div class="hot-content">
         <p>{{commentInfo.comment}}</p>
-        <!--<img :src="" alt="">-->
+
+        <div v-if="commentInfo.img.length>0"
+             v-for="img in commentInfo.img"  class="img-box" >
+          <img @click="plusImg(url+img,index)" :src="url+img" alt="">
+        </div>
+
       </div>
     </div>
+
+    <div id="box" v-show='bigImg' :class="{'bigImg': bigImg}" @click="plusImg(0)" >
+      <img @click.stop="plusImg(0)" :src="plusPath" alt="">
+    </div>
+
     <div class="publish-top" style="position: static;margin-bottom: 10px;padding: 0 10px">
       <div class="cancel left" v-if="commentInfo.reply">
         <span>评论{{commentInfo.reply.length}}</span>
@@ -69,13 +80,18 @@
   </div>
 </template>
 <script>
+  import {Scroller } from 'vux'
   import {mapState} from 'vuex'
   export default{
+      components:{
+        Scroller
+      },
       data(){
           return {
             commentId:0,
             commentInfo:{},
-            replyContent:''
+            replyContent:'',
+            bigImg:false
         }
       },
       created:function () {
@@ -166,6 +182,18 @@
           }).catch(function (error) {
             alert(error)
           })
+        },
+        plusImg(path,index){
+          this.bigImg = !this.bigImg
+          if(path){
+            this.plusPath = path
+            var box= document.getElementById("box");
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            box.style.paddingTop = t+100+"px";
+            document.body.style.overflow='hidden';
+          }else {
+            document.body.style.overflow = 'scroll'
+          }
         }
     }
   }
