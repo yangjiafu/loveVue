@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="hot-box" v-for="(item, index) in commentInfo">
       <div class="hot-top">
         <div class="hot-avatar left">
@@ -30,7 +31,7 @@
     <div id="box" v-show='bigImg' :class="{'bigImg': bigImg}" @click="plusImg(0)" >
       <img @click.stop="plusImg(0)" :src="plusPath" alt="">
     </div>
-    <div id="refresh" style="width: 100%;height: 40px"></div>
+
   </div>
 </template>
 <script>
@@ -38,6 +39,7 @@
   import Scroll from './scroller/v-scroll.vue'
   export default {
     name: 'hot',
+//    components:{Scroll},
     data () {
       return {
         commentInfo:[],
