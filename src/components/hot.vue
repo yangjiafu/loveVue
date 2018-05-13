@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="hot-box" v-for="(item, index) in commentInfo">
       <div class="hot-top">
         <div class="hot-avatar left">
@@ -31,47 +30,59 @@
     <div id="box" v-show='bigImg' :class="{'bigImg': bigImg}" @click="plusImg(0)" >
       <img @click.stop="plusImg(0)" :src="plusPath" alt="">
     </div>
-
+    <div style="width: 100%;height:80px;" @click="getComment(num,num-10)">
+      <p v-if="dataStatus">点一下试试...</p>
+      <p v-if="!dataStatus">没有啦...</p>
+    </div>
   </div>
 </template>
 <script>
   import {mapState} from 'vuex'
-  import Scroll from './scroller/v-scroll.vue'
   export default {
     name: 'hot',
-//    components:{Scroll},
     data () {
       return {
         commentInfo:[],
         bigImg:false,
-        plusPath:''
+        plusPath:'',
+//        counter:0,//默认已经显示10条数据 count对于让其从11条开始加载
+        num:10,
+        dataStatus:true
       }
     },
     computed:{
       ...mapState(['url','user','qs'])
     },
     created:function () {
-      this.getComment(10,0)
+      this.getComment(this.num,this.num-10)
     },
     methods:{
       getComment(limit,start){
           let _this = this
-          this.$http.get(this.url+'getHotComment',{
+          if (_this.dataStatus){
+            this.$http.get(this.url+'getHotComment',{
               params:{
                 type:'comment',
                 u_id:_this.user.id,
                 limit:limit,
                 start:start
               }
-          }).then(function (res) {
-            console.log(res);
-            if(res.data.length>0)
-              _this.commentInfo=res.data;
-            else
-                alert('database error')
-          }).catch(function (error) {
-            console.log(error);
-          })
+            }).then(function (res) {
+              console.log(res);
+              console.log('length：'+res.data.length);
+              if(res.data!='None'){
+                _this.num += 10
+                for (var arr in res.data){
+                  _this.commentInfo.push(res.data[arr])
+                }
+              }
+              if(res.data=='None' || res.data.length < 10){
+                _this.dataStatus = false
+              }
+            }).catch(function (error) {
+              console.log(error);
+            })
+          }
       },
       doLike(commentId,index){
         let _this = this
@@ -107,7 +118,7 @@
           }else {
             document.body.style.overflow = 'scroll'
           }
-      }
+      },
     }
   }
 </script>

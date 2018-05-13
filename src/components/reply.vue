@@ -24,7 +24,7 @@
 
         <div v-if="commentInfo.img.length>0"
              v-for="img in commentInfo.img"  class="img-box" >
-          <img @click="plusImg(url+img,index)" :src="url+img" alt="">
+          <img @click="plusImg(url+img)" :src="url+img" alt="">
         </div>
 
       </div>
@@ -34,14 +34,14 @@
       <img @click.stop="plusImg(0)" :src="plusPath" alt="">
     </div>
 
-    <div class="publish-top" style="position: static;margin-bottom: 10px;padding: 0 10px">
-      <div class="cancel left" v-if="commentInfo.reply">
+    <div class="publish-top" style="position: static;">
+      <div class="cancel left" v-if="commentInfo.reply" style="padding-left: 5px">
         <span>评论{{commentInfo.reply.length}}</span>
       </div>
       <div class="cancel right"
-           :class="{'like-color':commentInfo.isLike}"
-           @clike="doLikeComment">
-        <!--<span>发个信息</span>-->
+           @click="doLikeComment"
+           style="padding-right: 10px;text-align: right"
+           :class="{'like-color':commentInfo.isLike}">
         <span style="line-height: 40px">
           {{commentInfo.like}}
         </span>
@@ -91,7 +91,8 @@
             commentId:0,
             commentInfo:{},
             replyContent:'',
-            bigImg:false
+            bigImg:false,
+            plusPath:''
         }
       },
       created:function () {
@@ -126,6 +127,7 @@
             })
         },
         doLikeComment(){
+          console.log('点了一个赞');
           let _this = this
           this.$http.post(this.url+'doHotLike',
             this.qs.stringify({
@@ -183,7 +185,7 @@
             alert(error)
           })
         },
-        plusImg(path,index){
+        plusImg(path){
           this.bigImg = !this.bigImg
           if(path){
             this.plusPath = path

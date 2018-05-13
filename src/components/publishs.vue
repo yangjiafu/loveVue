@@ -7,7 +7,7 @@
         <span style="line-height: 40px">yousername</span>
       </div>
       <div class="commit-button right"
-           :class="{'permit-commit':(comment.length>0&&type=='text' )|| fileLength>0}"
+           :class="{'permit-commit':(comment.length>0&&type=='text' )|| fileLength>0&&fileLength<10}"
            @click="commitComment">发布</div>
     </div>
     <div class="publish-body" v-if="type=='text'">
@@ -16,15 +16,18 @@
     </div>
     <div class="publish-body" v-if="type=='img'">
       <form id="commentFile" style="min-height: 80px" name="commentFile" enctype="multipart/form-data">
-        <input type="text" name="commentUId" v-model="user.id" style="width: 0;height: 0;overflow: hidden">
         <textarea placeholder="分享些什么吧..." v-model="comment" type="text" name="commentText" cols="30" rows="10">
-          </textarea>
-        <div  class="select-button" v-show="fileLength>0" @click="clearSelect">取消选择</div>
-        <div class="select-button" id="imgSelectFile" v-show="fileLength<1">
-          <div>添加图片</div>
-           <input id="filed" type="file" name="commentImg" accept="image/*"
-               multiple="multiple" @change="selectImg()" /></div>
-            <p style="color: #ddd;font-size: 12px;float: left;margin-left: 10px;margin-top: 20px">最多可选9张</p>
+        </textarea>
+        <!--<div  class="select-button" v-show="fileLength>0" @click="clearSelect">取消选择</div>-->
+        <div class="select-button" id="imgSelectFile">
+          <div  v-if="fileLength<1">添加图片</div>
+          <div  v-if="fileLength>0">放弃图片</div>
+          <input id="filed" type="file" name="commentImg" accept="image/*"
+               multiple="multiple" @change="selectImg(fileLength)" />
+        </div>
+        <p style="color: #ddd;font-size: 12px;float: left;margin-left: 10px;margin-top: 20px">最多可选9张</p>
+        <input type="text" name="commentUId" v-model="user.id" style="width: 0;height: 0;overflow: hidden">
+
       </form>
       <div id="imgBox"></div>
     </div>
@@ -108,20 +111,18 @@
 
             },
             selectImg(){
-              var fil = event.target.files;
-              this.fileLength = fil.length
-              if(fil.length>9){
-                  this.fileLength = 0
-                  this.clearSelect()
-                  alert('选择图片超过规定个数将被释放，请重新选择！')
-              }
-              else {
-                for (var i=0;i<fil.length;i++) {
-//                console.log(fil[i]);
-//                console.log('--------------------------');
-                  this.reads(fil[i]);
+
+                var fil = event.target.files;
+                this.fileLength = fil.length
+                if(fil.length>9){
+                  this.fileLength = fil.length
+                  alert('选择图片超过规定个数将不能上传，请重新选择！')
                 }
-              }
+                else {
+                  for (var i=0;i<fil.length;i++) {
+                    this.reads(fil[i]);
+                  }
+                }
 
             },
             reads(fil){
@@ -134,10 +135,11 @@
               };
             },
             clearSelect(){
-              let obj =document.getElementById('filed');
-              obj.outerHTML = obj.outerHTML
-              document.getElementById("imgBox").innerHTML=''
-              this.fileLength = 0
+//              console.log('删除一个节点');
+//              let obj =document.getElementById('filed');
+//              obj.outerHTML = obj.outerHTML
+//              document.getElementById("imgBox").innerHTML=''
+//              this.fileLength = 0
             }
       }
   }
