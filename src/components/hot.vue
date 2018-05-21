@@ -68,9 +68,9 @@
                 start:start
               }
             }).then(function (res) {
-              console.log(res);
-              console.log('length：'+res.data.length);
-              if(res.data!='None'){
+//              console.log(res);
+//              console.log('length：'+res.data.length);
+              if(res.data!='None' && res.data!='error'){
                 _this.num += 10
                 for (var arr in res.data){
                   _this.commentInfo.push(res.data[arr])

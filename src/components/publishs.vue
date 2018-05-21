@@ -4,19 +4,19 @@
       <div class="cancel left" @click="goBack">取消</div>
       <div class="title">
         <!--<span>发个信息</span>-->
-        <span style="line-height: 40px">yousername</span>
+        <span style="line-height: 40px">{{user.name}}</span>
       </div>
       <div class="commit-button right"
            :class="{'permit-commit':(comment.length>0&&type=='text' )|| fileLength>0&&fileLength<10}"
            @click="commitComment">发布</div>
     </div>
     <div class="publish-body" v-if="type=='text'">
-      <textarea placeholder="分享些什么吧..." v-model="comment" name=""cols="30" rows="10">
+      <textarea placeholder="分享些什么吧..." maxlength="200" v-model="comment" name=""cols="30" rows="10">
       </textarea>
     </div>
     <div class="publish-body" v-if="type=='img'">
       <form id="commentFile" style="min-height: 80px" name="commentFile" enctype="multipart/form-data">
-        <textarea placeholder="分享些什么吧..." v-model="comment" type="text" name="commentText" cols="30" rows="10">
+        <textarea placeholder="分享些什么吧..."  maxlength="200" v-model="comment" type="text" name="commentText" cols="30" rows="10">
         </textarea>
         <!--<div  class="select-button" v-show="fileLength>0" @click="clearSelect">取消选择</div>-->
         <div class="select-button" id="imgSelectFile">

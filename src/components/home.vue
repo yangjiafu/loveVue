@@ -64,12 +64,12 @@
     },
     data(){
       return{
-        cookie:'',
-        userInfo:{
-          name:'杨',
-          token:'12321asd',
-          pwd:'123'
-        },
+//        cookie:'',
+//        userInfo:{
+//          name:'杨',
+//          token:'12321asd',
+//          pwd:'123'
+//        },
         swiperItemIndex:1,
         movies:{
 //            new:'',

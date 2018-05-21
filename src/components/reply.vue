@@ -21,7 +21,6 @@
       </div>
       <div class="hot-content">
         <p>{{commentInfo.comment}}</p>
-
         <div v-if="commentInfo.img.length>0"
              v-for="img in commentInfo.img"  class="img-box" >
           <img @click="plusImg(url+img)" :src="url+img" alt="">

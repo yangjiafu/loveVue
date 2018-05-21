@@ -97,7 +97,7 @@ const getters = {
       var arr = document.cookie.split(';')
       var obj = {id:'',token:''}
       var userId=arr[0].replace('userId=','')
-      var userToken=arr[1].replace('userToken=','')
+      var userToken=arr[1].replace('userToken=','').replace(' ','')
       obj = {id:userId,token:userToken}
       return obj
     }else
