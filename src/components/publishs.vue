@@ -111,7 +111,6 @@
 
             },
             selectImg(){
-
                 var fil = event.target.files;
                 this.fileLength = fil.length
                 if(fil.length>9){
